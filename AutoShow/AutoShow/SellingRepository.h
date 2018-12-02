@@ -60,6 +60,25 @@ public:
 		return item;
 	}
 
+	bool CreateSelling(Selling^ selling) {
+		if (this->GetSellingById(selling->id)) {
+			return false;
+		}
+		String^ query = "INSERT INTO Sellings(car,carId,customer,customerId,count,date"+
+			" VALUES(@car,@carId,@customer,@customerId,@count,@date)";
+		SqlCommand^ command = gcnew SqlCommand(query, connection);
+		command->Parameters->Add(gcnew SqlParameter("@car", selling->car));
+		command->Parameters->Add(gcnew SqlParameter("@carId", selling->carId));
+		command->Parameters->Add(gcnew SqlParameter("@customer", selling->customer));
+		command->Parameters->Add(gcnew SqlParameter("@customerId", selling->customerId));
+		command->Parameters->Add(gcnew SqlParameter("@count", selling->count));
+		command->Parameters->Add(gcnew SqlParameter("@date", selling->date));
+		if (command->ExecuteNonQuery() == 0) {
+			return false;
+		}
+		return true;
+	}
+
 	bool UpdateSelling(Selling^ selling) {
 		String^ query = "UPDATE dbo.Sellings SET customerId=@customerId,carId=@carId,count=@count, " +
 			"date=@date WHERE id=@id";

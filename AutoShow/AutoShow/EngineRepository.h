@@ -56,7 +56,23 @@ public:
 		return item;
 	}
 
-	bool UpdateCar(Engine^ engine) {
+	bool CreateEngine(Engine^ engine) {
+		if (this->GetEngineById(engine->id)) {
+			return false;
+		}
+		String^ query = "INSERT INTO Engines(name,fuelType,capacity,fuelConsumption VALUES(@name,@fuleType,@capacity,@fuelConsumption)";
+		SqlCommand^ command = gcnew SqlCommand(query, connection);
+		command->Parameters->Add(gcnew SqlParameter("@name", engine->name));
+		command->Parameters->Add(gcnew SqlParameter("@fuelType", engine->fuelType));
+		command->Parameters->Add(gcnew SqlParameter("@capacity", engine->capacity));
+		command->Parameters->Add(gcnew SqlParameter("@fuelConsumption", engine->fuelConsumption));
+		if (command->ExecuteNonQuery() == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	bool UpdateEngine(Engine^ engine) {
 		String^ query = "UPDATE dbo.Engines SET name=@name,fuelType=@fuelType,capacity=@capacity, " +
 			"fuelConsumption=@fuelConsumption WHERE id=@id";
 		SqlCommand^ command = gcnew SqlCommand(query, connection);

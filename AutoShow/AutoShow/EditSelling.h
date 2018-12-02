@@ -1,4 +1,5 @@
 #pragma once
+#include "SellingRepository.h"
 
 namespace AutoShow {
 
@@ -15,7 +16,7 @@ namespace AutoShow {
 	public ref class EditSelling : public System::Windows::Forms::Form
 	{
 	public:
-		EditSelling(void)
+		EditSelling(Selling^ selling)
 		{
 			InitializeComponent();
 			//

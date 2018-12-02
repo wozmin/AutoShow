@@ -12,7 +12,14 @@ ref class Car {
 		String^ color;
 		int passedDistance;
 
-		Car(String^ name,String^ producer,int producerId, int price,String^ transmissionType,String^ color,int passedDistance)
+		Car(
+			String^ name,
+			String^ producer,
+			int producerId,
+			int price,
+			String^ transmissionType,
+			String^ color,
+			int passedDistance)
 		{
 			this->name = name;
 			this->producer = producer;

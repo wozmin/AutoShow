@@ -52,7 +52,7 @@ public:
 		return item;
 	}
 
-	bool CreateCar(CarProducer^ carProducer) {
+	bool CreateCarProducer(CarProducer^ carProducer) {
 		if (this->GetCarProducerById(carProducer->id)) {
 			return false;
 		}

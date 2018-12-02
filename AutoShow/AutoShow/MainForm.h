@@ -1,21 +1,11 @@
 #pragma once
 #include "Car.h"
-#include "CarProducerRepository.h"
-#include "CarRepository.h"
-#include "EditCar.h"
-#include "CarProducer.h"
-#include "CarType.h"
-#include "CarTypeRepository.h"
-#include "Customer.h"
-#include "CustomerRepository.h"
 #include "EditCarType.h"
 #include "EditCustomer.h"
 #include "EditProducer.h"
 #include "EditSelling.h"
-#include "Engine.h"
-#include "EngineRepository.h"
-#include "Selling.h"
-#include "SellingRepository.h"
+#include "EditSupply.h"
+#include "EditCar.h"
 
 namespace AutoShow {
 
@@ -107,7 +97,7 @@ namespace AutoShow {
 			// 
 			// dataGridView1
 			// 
-			this->dataGridView1->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
+			this->dataGridView1->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
 			this->dataGridView1->AutoSizeRowsMode = System::Windows::Forms::DataGridViewAutoSizeRowsMode::AllCells;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView1->Location = System::Drawing::Point(164, 102);
@@ -161,6 +151,7 @@ namespace AutoShow {
 			this->button4->TabIndex = 5;
 			this->button4->Text = L"Cars";
 			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MainForm::button4_Click);
 			// 
 			// button5
 			// 
@@ -170,6 +161,7 @@ namespace AutoShow {
 			this->button5->TabIndex = 6;
 			this->button5->Text = L"Producers";
 			this->button5->UseVisualStyleBackColor = true;
+			this->button5->Click += gcnew System::EventHandler(this, &MainForm::button5_Click);
 			// 
 			// button6
 			// 
@@ -188,6 +180,7 @@ namespace AutoShow {
 			this->button7->TabIndex = 8;
 			this->button7->Text = L"Customers";
 			this->button7->UseVisualStyleBackColor = true;
+			this->button7->Click += gcnew System::EventHandler(this, &MainForm::button7_Click);
 			// 
 			// button8
 			// 
@@ -197,6 +190,7 @@ namespace AutoShow {
 			this->button8->TabIndex = 9;
 			this->button8->Text = L"Sellings";
 			this->button8->UseVisualStyleBackColor = true;
+			this->button8->Click += gcnew System::EventHandler(this, &MainForm::button8_Click);
 			// 
 			// button9
 			// 
@@ -243,8 +237,24 @@ namespace AutoShow {
 			dataGridView1->Columns["id"]->Visible = false;
 		}
 
+		void RemoveListeners() {
+			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCar);
+			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCar);
+			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCar);
+			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCarProducer);
+			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCarProducer);
+			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCarProducer);
+			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCustomer);
+			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
+			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
+			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCustomer);
+			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
+			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
+		}
+
 #pragma region Cars
 		void InitCarsTable() {
+			RemoveListeners();
 			List<String^>^ headers = gcnew List<String^>();
 			headers->Add("¹");
 			headers->Add("Producer");
@@ -300,6 +310,7 @@ namespace AutoShow {
 #pragma endregion
 #pragma region CarProducers
 		void InitCarProducersTable() {
+			RemoveListeners();
 			List<String^>^ headers = gcnew List<String^>();
 			headers->Add("¹");
 			headers->Add("Name");
@@ -313,7 +324,7 @@ namespace AutoShow {
 				this->dataGridView1->Rows[i]->Cells[0]->Value = (i + 1).ToString();
 				this->dataGridView1->Rows[i]->Cells[1]->Value = carProducer->name;
 				this->dataGridView1->Rows[i]->Cells[2]->Value = carProducer->country;
-				this->dataGridView1->Rows[i]->Cells[7]->Value = carProducer->id;
+				this->dataGridView1->Rows[i]->Cells[3]->Value = carProducer->id;
 				i++;
 			}
 			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateCarProducer);
@@ -323,7 +334,7 @@ namespace AutoShow {
 
 		void UpdateCarProducer(System::Object^  sender, System::EventArgs^  e) {
 			int selectedRow = dataGridView1->CurrentCell->RowIndex;
-			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[7]->Value->ToString());
+			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[3]->Value->ToString());
 			CarProducer^ carProducerToEdit = _carProducerRepository->GetCarProducerById(id);
 			EditProducer^ form = gcnew EditProducer(carProducerToEdit);
 			form->ShowDialog();
@@ -345,8 +356,213 @@ namespace AutoShow {
 			InitCarProducersTable();
 		}
 #pragma endregion
+#pragma region Customers
+		void InitCustomersTable() {
+			RemoveListeners();
+			List<String^>^ headers = gcnew List<String^>();
+			headers->Add("¹");
+			headers->Add("Name");
+			headers->Add("Address");
+			SetTableHeaders(headers);
+			List<Customer^>^ customers = _customerRepository->GetAllCustomers();
+			dataGridView1->Rows->Clear();
+			int i = 0;
+			for each (Customer^ customer in customers) {
+				this->dataGridView1->Rows->Add();
+				this->dataGridView1->Rows[i]->Cells[0]->Value = (i + 1).ToString();
+				this->dataGridView1->Rows[i]->Cells[1]->Value = customer->name;
+				this->dataGridView1->Rows[i]->Cells[2]->Value = customer->address;
+				this->dataGridView1->Rows[i]->Cells[3]->Value = customer->id;
+				i++;
+			}
+			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateCustomer);
+			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
+			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
+		}
+
+		void UpdateCustomer(System::Object^  sender, System::EventArgs^  e) {
+			int selectedRow = dataGridView1->CurrentCell->RowIndex;
+			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[3]->Value->ToString());
+			Customer^ customerToEdit = _customerRepository->GetCustomerById(id);
+			EditCustomer^ form = gcnew EditCustomer(customerToEdit);
+			form->ShowDialog();
+			InitCustomersTable();
+		}
+
+		void CreateCustomer(System::Object^  sender, System::EventArgs^  e) {
+			EditCustomer^ form = gcnew EditCustomer(nullptr);
+			form->ShowDialog();
+			InitCustomersTable();
+		}
+
+		void DeleteCustomer(System::Object^  sender, System::EventArgs^  e) {
+			int selectedRow = dataGridView1->CurrentCell->RowIndex;
+			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[3]->Value->ToString());
+			_customerRepository->DeleteCustomer(id);
+			InitCustomersTable();
+		}
+#pragma endregion
+#pragma region Sellings
+		void InitSellingsTable() {
+			RemoveListeners();
+			List<String^>^ headers = gcnew List<String^>();
+			headers->Add("¹");
+			headers->Add("Car");
+			headers->Add("Customer");
+			headers->Add("Count");
+			headers->Add("Date");
+			SetTableHeaders(headers);
+			List<Selling^>^ sellings = _sellingRepository->GetAllSellings();
+			dataGridView1->Rows->Clear();
+			int i = 0;
+			for each (Selling^ selling in sellings) {
+				this->dataGridView1->Rows->Add();
+				this->dataGridView1->Rows[i]->Cells[0]->Value = (i + 1).ToString();
+				this->dataGridView1->Rows[i]->Cells[1]->Value = selling->customer;
+				this->dataGridView1->Rows[i]->Cells[2]->Value = selling->car;
+				this->dataGridView1->Rows[i]->Cells[3]->Value = selling->count;
+				this->dataGridView1->Rows[i]->Cells[4]->Value = selling->date.ToString("dd.MM.yyyy");
+				this->dataGridView1->Rows[i]->Cells[5]->Value = selling->id;
+				i++;
+			}
+			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateCustomer);
+			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
+			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
+		}
+
+		void UpdateSelling(System::Object^  sender, System::EventArgs^  e) {
+			int selectedRow = dataGridView1->CurrentCell->RowIndex;
+			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[5]->Value->ToString());
+			Selling^ sellingToEdit = _sellingRepository->GetSellingById(id);
+			EditSelling^ form = gcnew EditSelling(sellingToEdit);
+			form->ShowDialog();
+			InitSellingsTable();
+		}
+
+		void CreateSelling(System::Object^  sender, System::EventArgs^  e) {
+			EditSelling^ form = gcnew EditSelling(nullptr);
+			form->ShowDialog();
+			InitSellingsTable();
+		}
+
+		void DeleteSelling(System::Object^  sender, System::EventArgs^  e) {
+			int selectedRow = dataGridView1->CurrentCell->RowIndex;
+			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[5]->Value->ToString());
+			_sellingRepository->DeleteSelling(id);
+			InitSellingsTable();
+		}
+#pragma endregion
+#pragma region Engines
+		void InitEnginesTable() {
+			RemoveListeners();
+			List<String^>^ headers = gcnew List<String^>();
+			headers->Add("¹");
+			headers->Add("Name");
+			headers->Add("Fuel type");
+			headers->Add("Capacity");
+			headers->Add("Fuel consumption");
+			SetTableHeaders(headers);
+			List<Engine^>^ engines = _engineRepository->GetAllEngines();
+			dataGridView1->Rows->Clear();
+			int i = 0;
+			for each (Engine^ engine in engines) {
+				this->dataGridView1->Rows->Add();
+				this->dataGridView1->Rows[i]->Cells[0]->Value = (i + 1).ToString();
+				this->dataGridView1->Rows[i]->Cells[1]->Value = engine->name;
+				this->dataGridView1->Rows[i]->Cells[2]->Value = engine->fuelType;
+				this->dataGridView1->Rows[i]->Cells[3]->Value = engine->capacity;
+				this->dataGridView1->Rows[i]->Cells[4]->Value = engine->fuelConsumption;
+				this->dataGridView1->Rows[i]->Cells[5]->Value = engine->id;
+				i++;
+			}
+			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateEngine);
+			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateEngine);
+			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteEngine);
+		}
+
+		void UpdateEngine(System::Object^  sender, System::EventArgs^  e) {
+			int selectedRow = dataGridView1->CurrentCell->RowIndex;
+			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[5]->Value->ToString());
+			Engine^ engineToEdit = _engineRepository->GetEngineById(id);
+			EditSelling^ form = gcnew EditSelling(engineToEdit);
+			form->ShowDialog();
+			InitEnginesTable();
+		}
+
+		void CreateEngine(System::Object^  sender, System::EventArgs^  e) {
+			EditSupply^ form = gcnew EditSupply(nullptr);
+			form->ShowDialog();
+			InitEnginesTable();
+		}
+
+		void DeleteEngine(System::Object^  sender, System::EventArgs^  e) {
+			int selectedRow = dataGridView1->CurrentCell->RowIndex;
+			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[5]->Value->ToString());
+			_engineRepository->DeleteEngine(id);
+			InitEnginesTable();
+		}
+#pragma endregion
+#pragma region CarTypes
+		void InitCarTypesTable() {
+			RemoveListeners();
+			List<String^>^ headers = gcnew List<String^>();
+			headers->Add("¹");
+			headers->Add("Name");
+			headers->Add("Description");
+			SetTableHeaders(headers);
+			List<CarType^>^ carTypes = _carTypeRepository->GetAllCarTypes();
+			dataGridView1->Rows->Clear();
+			int i = 0;
+			for each (CarType^ carType in carTypes) {
+				this->dataGridView1->Rows->Add();
+				this->dataGridView1->Rows[i]->Cells[0]->Value = (i + 1).ToString();
+				this->dataGridView1->Rows[i]->Cells[1]->Value = carType->name;
+				this->dataGridView1->Rows[i]->Cells[2]->Value = carType->description;
+				this->dataGridView1->Rows[i]->Cells[3]->Value = carType->id;
+				i++;
+			}
+			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateCarType);
+			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateCarType);
+			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteCarType);
+		}
+
+		void UpdateCarType(System::Object^  sender, System::EventArgs^  e) {
+			int selectedRow = dataGridView1->CurrentCell->RowIndex;
+			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[3]->Value->ToString());
+			CarType^ carTypeToEdit = _carTypeRepository->GetCarTypeById(id);
+			EditCarType^ form = gcnew EditCarType(carTypeToEdit);
+			form->ShowDialog();
+			InitEnginesTable();
+		}
+
+		void CreateCarType(System::Object^  sender, System::EventArgs^  e) {
+			EditCarType^ form = gcnew EditCarType(nullptr);
+			form->ShowDialog();
+			InitCarTypesTable();
+		}
+
+		void DeleteCarType(System::Object^  sender, System::EventArgs^  e) {
+			int selectedRow = dataGridView1->CurrentCell->RowIndex;
+			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[3]->Value->ToString());
+			_carTypeRepository->DeleteCarType(id);
+			InitCarTypesTable();
+		}
+#pragma endregion
+
 
 
 #pragma endregion
-	};
+	private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
+		InitCarsTable();
+	}
+private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
+	InitCarProducersTable();
+}
+private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
+	InitCustomersTable();
+}
+private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
+	InitSellingsTable();
+}
+};
 }

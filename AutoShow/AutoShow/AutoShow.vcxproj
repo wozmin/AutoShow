@@ -162,6 +162,9 @@
     <EmbeddedResource Include="EditSelling.resx">
       <DependentUpon>EditSelling.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditSupply.resx">
+      <DependentUpon>EditSupply.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resX">
       <DependentUpon>Form1.h</DependentUpon>
       <SubType>Designer</SubType>

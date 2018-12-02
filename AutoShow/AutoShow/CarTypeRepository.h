@@ -19,7 +19,7 @@ public:
 		connection->Close();
 	}
 
-	List<CarType^>^ GetAllCars() {
+	List<CarType^>^ GetAllCarTypes() {
 		List<CarType^>^ list = gcnew List<CarType^>();
 		String^ query = "SELECT * FROM dbo.CarTypes";
 		SqlCommand^ command = gcnew SqlCommand(query, connection);
@@ -27,14 +27,15 @@ public:
 		while (reader->Read()) {
 			list->Add(gcnew CarType(
 				reader->GetInt32(0),
-				reader->GetString(1)
+				reader->GetString(1),
+				reader->GetString(2)
 			));
 		}
 		reader->Close();
 		return list;
 	}
 
-	CarType^ GetCarById(int id) {
+	CarType^ GetCarTypeById(int id) {
 		CarType^ item = nullptr;
 		String^ query = "SELECT * FROM dbo.CarTypes WHERE dbo.CarTypes.id = @id";
 		SqlCommand^ command = gcnew SqlCommand(query, connection);
@@ -43,18 +44,34 @@ public:
 		if (reader->Read()) {
 			item = gcnew CarType(
 				reader->GetInt32(0),
-				reader->GetString(1)
+				reader->GetString(1),
+				reader->GetString(2)
 			);
 		}
 		reader->Close();
 		return item;
 	}
 
+	bool CreateCarType(CarType^ carType) {
+		if (this->GetCarTypeById(carType->id)) {
+			return false;
+		}
+		String^ query = "INSERT INTO CarTypes(name,description) VALUES(@name,@description)";
+		SqlCommand^ command = gcnew SqlCommand(query, connection);
+		command->Parameters->Add(gcnew SqlParameter("@name", carType->name));
+		command->Parameters->Add(gcnew SqlParameter("@description", carType->description));
+		if (command->ExecuteNonQuery() == 0) {
+			return false;
+		}
+		return true;
+	}
+
 	bool UpdateCarType(CarType^ carType) {
-		String^ query = "UPDATE dbo.CarTypes SET name=@name WHERE id=@id";
+		String^ query = "UPDATE dbo.CarTypes SET name=@name, description=@description WHERE id=@id";
 		SqlCommand^ command = gcnew SqlCommand(query, connection);
 		command->Parameters->Add(gcnew SqlParameter("@id", carType->id));
 		command->Parameters->Add(gcnew SqlParameter("@name", carType->name));
+		command->Parameters->Add(gcnew SqlParameter("@description", carType->description));
 		if (command->ExecuteNonQuery() == 0) {
 			return false;
 		}

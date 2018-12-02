@@ -1,5 +1,5 @@
 #pragma once
-#include "Customer.h"
+#include "CustomerRepository.h"
 
 namespace AutoShow {
 
@@ -19,7 +19,7 @@ namespace AutoShow {
 		EditCustomer(Customer^ customer)
 		{
 			InitializeComponent();
-			_customer = cutomer;
+			_customer = customer;
 			_customerRepository = gcnew CustomerRepository();
 			if (customer) {
 				FillFormFields();
@@ -252,7 +252,6 @@ private: System::Void textBox2_Validating(System::Object^  sender, System::Compo
 		errorProvider1->SetError(textBox2, "The address field is required");
 		label2->Text = errorProvider1->GetError(textBox2);
 		button1->Enabled = false;
-
 	}
 	else {
 		label2->Text = "";

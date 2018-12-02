@@ -1,4 +1,5 @@
 #pragma once
+#include "CarTypeRepository.h"
 
 namespace AutoShow {
 
@@ -15,9 +16,11 @@ namespace AutoShow {
 	public ref class EditCarType : public System::Windows::Forms::Form
 	{
 	public:
-		EditCarType(void)
+		EditCarType(CarType carType)
 		{
 			InitializeComponent();
+			_carType = carType;
+			_carTypeRepository = gcnew _carTypeRepository();
 			//
 			//TODO: Add the constructor code here
 			//
@@ -45,8 +48,12 @@ namespace AutoShow {
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::ErrorProvider^  errorProvider1;
 	private: System::Windows::Forms::ErrorProvider^  errorProvider2;
+	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::TextBox^  textBox2;
+	private: System::Windows::Forms::Label^  label3;
 	private: System::ComponentModel::IContainer^  components;
-
+	private: CarType^ _carType;
+	private: CarTypeRepository^ _carTypeRepository;
 	private:
 		/// <summary>
 		/// Required designer variable.
@@ -70,6 +77,9 @@ namespace AutoShow {
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->errorProvider1 = (gcnew System::Windows::Forms::ErrorProvider(this->components));
 			this->errorProvider2 = (gcnew System::Windows::Forms::ErrorProvider(this->components));
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider2))->BeginInit();
 			this->SuspendLayout();
@@ -79,7 +89,7 @@ namespace AutoShow {
 			this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->label8->ForeColor = System::Drawing::Color::DarkRed;
-			this->label8->Location = System::Drawing::Point(124, 108);
+			this->label8->Location = System::Drawing::Point(125, 172);
 			this->label8->Name = L"label8";
 			this->label8->Size = System::Drawing::Size(150, 26);
 			this->label8->TabIndex = 20;
@@ -118,7 +128,7 @@ namespace AutoShow {
 			// button1
 			// 
 			this->button1->Enabled = false;
-			this->button1->Location = System::Drawing::Point(56, 175);
+			this->button1->Location = System::Drawing::Point(56, 238);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 21;
@@ -127,7 +137,7 @@ namespace AutoShow {
 			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(199, 175);
+			this->button2->Location = System::Drawing::Point(199, 238);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(75, 23);
 			this->button2->TabIndex = 22;
@@ -143,11 +153,43 @@ namespace AutoShow {
 			this->errorProvider2->ContainerControl = this;
 			this->errorProvider2->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"errorProvider2.Icon")));
 			// 
+			// label2
+			// 
+			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label2->ForeColor = System::Drawing::Color::DarkRed;
+			this->label2->Location = System::Drawing::Point(125, 118);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(150, 26);
+			this->label2->TabIndex = 25;
+			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
+			// 
+			// textBox2
+			// 
+			this->textBox2->Location = System::Drawing::Point(126, 147);
+			this->textBox2->Name = L"textBox2";
+			this->textBox2->Size = System::Drawing::Size(148, 20);
+			this->textBox2->TabIndex = 23;
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label3->Location = System::Drawing::Point(19, 147);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(83, 17);
+			this->label3->TabIndex = 24;
+			this->label3->Text = L"Description:";
+			// 
 			// EditCarType
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(329, 238);
+			this->ClientSize = System::Drawing::Size(329, 325);
+			this->Controls->Add(this->label2);
+			this->Controls->Add(this->textBox2);
+			this->Controls->Add(this->label3);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label8);
