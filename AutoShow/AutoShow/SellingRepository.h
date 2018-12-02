@@ -1,5 +1,4 @@
 #pragma once
-#include "AppSettings.h"
 #include "Selling.h"
 
 using namespace System;
@@ -12,7 +11,7 @@ private:SqlConnection ^ connection;
 public:
 	SellingRepository()
 	{
-		connection = gcnew SqlConnection(AppSettings.ConnectionString);
+		connection = gcnew SqlConnection("Server=localhost\\SQLEXPRESS;Database=AutoShow;Trusted_Connection=True;");
 		connection->Open();
 	}
 

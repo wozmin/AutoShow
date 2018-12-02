@@ -104,7 +104,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AppSettings.h" />
     <ClInclude Include="Car.h" />
     <ClInclude Include="CarProducer.h" />
     <ClInclude Include="CarProducerRepository.h" />
@@ -150,6 +149,18 @@
   <ItemGroup>
     <EmbeddedResource Include="EditCar.resx">
       <DependentUpon>EditCar.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditCarType.resx">
+      <DependentUpon>EditCarType.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditCustomer.resx">
+      <DependentUpon>EditCustomer.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditProducer.resx">
+      <DependentUpon>EditProducer.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditSelling.resx">
+      <DependentUpon>EditSelling.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resX">
       <DependentUpon>Form1.h</DependentUpon>

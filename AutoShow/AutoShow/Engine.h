@@ -13,7 +13,7 @@ ref class Engine {
 		{
 			this->name = name;
 			this->fuelType = fuelType;
-			int capacity = capacity;
+			this->capacity = capacity;
 			this->fuelConsumption = fuelConsumption;
 		}
 

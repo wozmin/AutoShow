@@ -1,5 +1,4 @@
 #pragma once
-#include "AppSettings.h"
 #include "Car.h"
 
 using namespace System;
@@ -12,7 +11,7 @@ ref class CarRepository {
 	public:
 		CarRepository()
 		{
-			connection = gcnew SqlConnection(AppSettings.ConnectionString);
+			connection = gcnew SqlConnection("Server=localhost\\SQLEXPRESS;Database=AutoShow;Trusted_Connection=True;");
 			connection->Open();
 		}
 
@@ -22,7 +21,8 @@ ref class CarRepository {
 
 		List<Car^>^ GetAllCars() {
 			List<Car^>^ list = gcnew List<Car^>();
-			String^ query = "SELECT * FROM dbo.Cars";
+			String^ query = "SELECT Cars.id, Cars.name,CarProducers.name,producerId, price,transmissionType,color,passedDistance FROM Cars "
+				+"JOIN CarProducers ON CarProducers.id = Cars.producerId";
 			SqlCommand^ command = gcnew SqlCommand(query, connection);
 			SqlDataReader^ reader = command->ExecuteReader();
 			while (reader->Read()) {
@@ -43,7 +43,8 @@ ref class CarRepository {
 
 		Car^ GetCarById(int id) {
 			Car^ item = nullptr;
-			String^ query = "SELECT * FROM dbo.Cars WHERE dbo.Cars.id = @id";
+			String^ query = "SELECT Cars.id, Cars.name, CarProducers.name, producerId, price, transmissionType, color, passedDistance FROM Cars "
+				+ "JOIN CarProducers ON CarProducers.id = Cars.producerId Where Cars.id = @id";
 			SqlCommand^ command = gcnew SqlCommand(query, connection);
 			command->Parameters->Add(gcnew SqlParameter("@id", id));
 			SqlDataReader^ reader = command->ExecuteReader();
@@ -61,6 +62,25 @@ ref class CarRepository {
 			}
 			reader->Close();
 			return item;
+		}
+
+		bool CreateCar(Car^ car){
+			if (this->GetCarById(car->id)) {
+				return false;
+			}
+			String^ query = "INSERT INTO Cars(name,price,transmissionType,color,passedDistance,producerId) "+
+				"VALUES(@name,@price,@transmissionType,@color,@passedDistance,@producerId)";
+			SqlCommand^ command = gcnew SqlCommand(query, connection);
+			command->Parameters->Add(gcnew SqlParameter("@name", car->name));
+			command->Parameters->Add(gcnew SqlParameter("@price", car->price));
+			command->Parameters->Add(gcnew SqlParameter("@transmissionType", car->transmissionType));
+			command->Parameters->Add(gcnew SqlParameter("@color", car->color));
+			command->Parameters->Add(gcnew SqlParameter("@passedDistance", car->passedDistance));
+			command->Parameters->Add(gcnew SqlParameter("@producerId", car->producerId));
+			if (command->ExecuteNonQuery() == 0) {
+				return false;
+			}
+			return true;
 		}
 
 		bool UpdateCar(Car^ car) {

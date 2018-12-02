@@ -1,5 +1,4 @@
 #pragma once
-#include "AppSettings.h"
 #include "CarProducer.h"
 
 using namespace System;
@@ -12,7 +11,7 @@ private:SqlConnection ^ connection;
 public:
 	CarProducerRepository()
 	{
-		connection = gcnew SqlConnection(AppSettings.ConnectionString);
+		connection = gcnew SqlConnection("Server=localhost\\SQLEXPRESS;Database=AutoShow;Trusted_Connection=True;");
 		connection->Open();
 	}
 
@@ -51,6 +50,20 @@ public:
 		}
 		reader->Close();
 		return item;
+	}
+
+	bool CreateCar(CarProducer^ carProducer) {
+		if (this->GetCarProducerById(carProducer->id)) {
+			return false;
+		}
+		String^ query = "INSERT INTO CarProducers(name,country) VALUES(@name,@country)";
+		SqlCommand^ command = gcnew SqlCommand(query, connection);
+		command->Parameters->Add(gcnew SqlParameter("@name", carProducer->name));
+		command->Parameters->Add(gcnew SqlParameter("@country", carProducer->country));
+		if (command->ExecuteNonQuery() == 0) {
+			return false;
+		}
+		return true;
 	}
 
 	bool UpdateCarProducer(CarProducer^ carProducer) {

@@ -19,4 +19,8 @@ ref class CarProducer {
 			this->id = id;
 		}
 
+		String^ ToString() override{
+			return this->name;
+		}
+
 };

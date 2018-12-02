@@ -1,8 +1,8 @@
 // AutoShow.cpp : main project file.
 
 #include "stdafx.h"
-#include "Form1.h"
-#include "EditCar.h"
+#include "MainForm.h"
+#include "EditCarType.h"
 
 using namespace AutoShow;
 
@@ -14,6 +14,6 @@ int main(array<System::String ^> ^args)
 	Application::SetCompatibleTextRenderingDefault(false); 
 
 	// Create the main window and run it
-	Application::Run(gcnew EditCar());
+	Application::Run(gcnew MainForm());
 	return 0;
 }
