@@ -2,6 +2,8 @@
 #include "Car.h"
 #include "CarRepository.h"
 #include "CarProducerRepository.h"
+#include "EngineRepository.h"
+#include "CarTypeRepository.h"
 #include "CarProducer.h"
 
 namespace AutoShow {
@@ -25,6 +27,8 @@ namespace AutoShow {
 			this->_car = car;
 			this->_carRepository = gcnew CarRepository();
 			this->_carProducerRepository = gcnew CarProducerRepository();
+			this->_engineRepository = gcnew EngineRepository();
+			this->_carTypeRepository = gcnew CarTypeRepository();
 			this->comboBox1->DataSource = _carProducerRepository->GetAllCarProducers();
 			if (car) {
 				FillFormFields();
@@ -49,13 +53,13 @@ namespace AutoShow {
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::Label^  label3;
-	private: System::Windows::Forms::Label^  label4;
+
 	private: System::Windows::Forms::Label^  label5;
-	private: System::Windows::Forms::Label^  label6;
+
 	private: System::Windows::Forms::TextBox^  textBox1;
-	private: System::Windows::Forms::TextBox^  textBox3;
+
 	private: System::Windows::Forms::TextBox^  textBox4;
-	private: System::Windows::Forms::NumericUpDown^  numericUpDown1;
+
 	private: System::Windows::Forms::NumericUpDown^  numericUpDown2;
 	private: System::Windows::Forms::ComboBox^  comboBox1;
 	private: System::Windows::Forms::Label^  label7;
@@ -63,15 +67,21 @@ namespace AutoShow {
 	private: System::Windows::Forms::Label^  label8;
 	private: System::Windows::Forms::Label^  label9;
 	private: System::Windows::Forms::ErrorProvider^  errorProvider2;
-	private: System::Windows::Forms::Label^  label10;
+
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::Label^  label12;
+
 	private: System::Windows::Forms::Label^  label11;
 	private: System::ComponentModel::IContainer^  components;
 	private: Car^ _car;
 	private: CarRepository^ _carRepository;
+	private: System::Windows::Forms::ComboBox^  comboBox3;
+	private: System::Windows::Forms::Label^  label6;
+	private: System::Windows::Forms::ComboBox^  comboBox2;
+	private: System::Windows::Forms::Label^  label4;
 	private: CarProducerRepository^ _carProducerRepository;
+	private: EngineRepository^ _engineRepository;
+	private: CarTypeRepository^ _carTypeRepository;
 	protected:
 
 	private:
@@ -92,13 +102,9 @@ namespace AutoShow {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
-			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
-			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
 			this->textBox4 = (gcnew System::Windows::Forms::TextBox());
-			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
 			this->numericUpDown2 = (gcnew System::Windows::Forms::NumericUpDown());
 			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
 			this->label7 = (gcnew System::Windows::Forms::Label());
@@ -106,12 +112,13 @@ namespace AutoShow {
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->errorProvider2 = (gcnew System::Windows::Forms::ErrorProvider(this->components));
-			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->label11 = (gcnew System::Windows::Forms::Label());
-			this->label12 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
+			this->comboBox2 = (gcnew System::Windows::Forms::ComboBox());
+			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->comboBox3 = (gcnew System::Windows::Forms::ComboBox());
+			this->label6 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider2))->BeginInit();
@@ -151,39 +158,17 @@ namespace AutoShow {
 			this->label3->TabIndex = 2;
 			this->label3->Text = L"Price:";
 			// 
-			// label4
-			// 
-			this->label4->AutoSize = true;
-			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->label4->Location = System::Drawing::Point(56, 232);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(127, 17);
-			this->label4->TabIndex = 3;
-			this->label4->Text = L"Transmission type:";
-			// 
 			// label5
 			// 
 			this->label5->AutoSize = true;
 			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label5->Location = System::Drawing::Point(137, 284);
+			this->label5->Location = System::Drawing::Point(137, 228);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(45, 17);
 			this->label5->TabIndex = 4;
 			this->label5->Text = L"Color:";
 			this->label5->Click += gcnew System::EventHandler(this, &EditCar::label5_Click);
-			// 
-			// label6
-			// 
-			this->label6->AutoSize = true;
-			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->label6->Location = System::Drawing::Point(66, 335);
-			this->label6->Name = L"label6";
-			this->label6->Size = System::Drawing::Size(116, 17);
-			this->label6->TabIndex = 5;
-			this->label6->Text = L"Passed distance:";
 			// 
 			// textBox1
 			// 
@@ -193,39 +178,21 @@ namespace AutoShow {
 			this->textBox1->TabIndex = 0;
 			this->textBox1->Validating += gcnew System::ComponentModel::CancelEventHandler(this, &EditCar::textBox1_Validating);
 			// 
-			// textBox3
-			// 
-			this->textBox3->Location = System::Drawing::Point(208, 231);
-			this->textBox3->Name = L"textBox3";
-			this->textBox3->Size = System::Drawing::Size(147, 20);
-			this->textBox3->TabIndex = 8;
-			this->textBox3->TextChanged += gcnew System::EventHandler(this, &EditCar::textBox3_TextChanged);
-			this->textBox3->Validating += gcnew System::ComponentModel::CancelEventHandler(this, &EditCar::textBox3_Validating);
-			// 
 			// textBox4
 			// 
-			this->textBox4->Location = System::Drawing::Point(207, 283);
+			this->textBox4->Location = System::Drawing::Point(207, 227);
 			this->textBox4->Name = L"textBox4";
 			this->textBox4->Size = System::Drawing::Size(147, 20);
 			this->textBox4->TabIndex = 9;
 			this->textBox4->Validating += gcnew System::ComponentModel::CancelEventHandler(this, &EditCar::textBox4_Validating);
 			// 
-			// numericUpDown1
-			// 
-			this->numericUpDown1->Location = System::Drawing::Point(207, 335);
-			this->numericUpDown1->Name = L"numericUpDown1";
-			this->numericUpDown1->Size = System::Drawing::Size(147, 20);
-			this->numericUpDown1->TabIndex = 10;
-			this->numericUpDown1->Maximum = 2000000;
-			this->numericUpDown1->Validating += gcnew System::ComponentModel::CancelEventHandler(this, &EditCar::numericUpDown1_Validating);
-			// 
 			// numericUpDown2
 			// 
 			this->numericUpDown2->Location = System::Drawing::Point(207, 175);
+			this->numericUpDown2->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 2000000, 0, 0, 0 });
 			this->numericUpDown2->Name = L"numericUpDown2";
 			this->numericUpDown2->Size = System::Drawing::Size(147, 20);
 			this->numericUpDown2->TabIndex = 11;
-			this->numericUpDown2->Maximum = 2000000;
 			this->numericUpDown2->Validating += gcnew System::ComponentModel::CancelEventHandler(this, &EditCar::numericUpDown2_Validating);
 			// 
 			// comboBox1
@@ -276,32 +243,14 @@ namespace AutoShow {
 			this->errorProvider2->ContainerControl = this;
 			this->errorProvider2->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"errorProvider2.Icon")));
 			// 
-			// label10
-			// 
-			this->label10->ForeColor = System::Drawing::Color::DarkRed;
-			this->label10->Location = System::Drawing::Point(205, 254);
-			this->label10->Name = L"label10";
-			this->label10->Size = System::Drawing::Size(149, 26);
-			this->label10->TabIndex = 16;
-			this->label10->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
-			// 
 			// label11
 			// 
 			this->label11->ForeColor = System::Drawing::Color::DarkRed;
-			this->label11->Location = System::Drawing::Point(206, 306);
+			this->label11->Location = System::Drawing::Point(206, 250);
 			this->label11->Name = L"label11";
 			this->label11->Size = System::Drawing::Size(149, 26);
 			this->label11->TabIndex = 17;
 			this->label11->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
-			// 
-			// label12
-			// 
-			this->label12->ForeColor = System::Drawing::Color::DarkRed;
-			this->label12->Location = System::Drawing::Point(206, 358);
-			this->label12->Name = L"label12";
-			this->label12->Size = System::Drawing::Size(149, 26);
-			this->label12->TabIndex = 18;
-			this->label12->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			// 
 			// button1
 			// 
@@ -324,35 +273,70 @@ namespace AutoShow {
 			this->button2->UseVisualStyleBackColor = true;
 			this->button2->Click += gcnew System::EventHandler(this, &EditCar::Cancel);
 			// 
+			// comboBox2
+			// 
+			this->comboBox2->FormattingEnabled = true;
+			this->comboBox2->Location = System::Drawing::Point(207, 281);
+			this->comboBox2->Name = L"comboBox2";
+			this->comboBox2->Size = System::Drawing::Size(148, 21);
+			this->comboBox2->TabIndex = 22;
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label4->Location = System::Drawing::Point(127, 281);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(56, 17);
+			this->label4->TabIndex = 21;
+			this->label4->Text = L"Engine:";
+			// 
+			// comboBox3
+			// 
+			this->comboBox3->FormattingEnabled = true;
+			this->comboBox3->Location = System::Drawing::Point(207, 337);
+			this->comboBox3->Name = L"comboBox3";
+			this->comboBox3->Size = System::Drawing::Size(148, 21);
+			this->comboBox3->TabIndex = 24;
+			// 
+			// label6
+			// 
+			this->label6->AutoSize = true;
+			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label6->Location = System::Drawing::Point(118, 338);
+			this->label6->Name = L"label6";
+			this->label6->Size = System::Drawing::Size(65, 17);
+			this->label6->TabIndex = 23;
+			this->label6->Text = L"Car type:";
+			// 
 			// EditCar
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(422, 474);
+			this->Controls->Add(this->comboBox3);
+			this->Controls->Add(this->label6);
+			this->Controls->Add(this->comboBox2);
+			this->Controls->Add(this->label4);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
-			this->Controls->Add(this->label12);
 			this->Controls->Add(this->label11);
-			this->Controls->Add(this->label10);
 			this->Controls->Add(this->label9);
 			this->Controls->Add(this->label8);
 			this->Controls->Add(this->label7);
 			this->Controls->Add(this->comboBox1);
 			this->Controls->Add(this->numericUpDown2);
-			this->Controls->Add(this->numericUpDown1);
 			this->Controls->Add(this->textBox4);
-			this->Controls->Add(this->textBox3);
 			this->Controls->Add(this->textBox1);
-			this->Controls->Add(this->label6);
 			this->Controls->Add(this->label5);
-			this->Controls->Add(this->label4);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Name = L"EditCar";
 			this->Text = L"add/edit car";
 			this->Load += gcnew System::EventHandler(this, &EditCar::EditCar_Load);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider2))->EndInit();
@@ -368,25 +352,30 @@ private: System::Void label5_Click(System::Object^  sender, System::EventArgs^  
 
 private: void FillFormFields() {
 	this->textBox1->Text = _car->name;
-	this->textBox3->Text = _car->transmissionType;
 	this->textBox4->Text = _car->color;
-	this->numericUpDown1->Value = _car->passedDistance;
 	this->numericUpDown2->Value = _car->price;
 	this->comboBox1->SelectedItem = _carProducerRepository->GetCarProducerById(_car->producerId);
+	this->comboBox2->SelectedItem = _engineRepository->GetEngineById(_car->engineId);
+	this->comboBox3->SelectedItem = _carTypeRepository->GetCarTypeById(_car->carTypeId);
 }
 
 
 private:Car^ GetFormFields() {
 	CarProducer^ selectedProducer = (CarProducer^)comboBox1->SelectedItem;
+	Engine^ selectedEngine = (Engine^)comboBox2->SelectedItem;
+	CarType^ selectedCarType = (CarType^)comboBox3->SelectedItem;
 	return gcnew Car(
 		_car->id,
 		textBox1->Text,
 		selectedProducer->name,
 		selectedProducer->id,
-		Convert::ToInt32(numericUpDown1->Value),
-		textBox3->Text,
+		Convert::ToInt32(numericUpDown2->Value),
 		textBox4->Text,
-		Convert::ToInt32(numericUpDown2->Value)
+		selectedEngine->name,
+		selectedEngine->id,
+		selectedCarType->name,
+		selectedCarType->id
+
 	);
 }
 
@@ -413,20 +402,6 @@ private: System::Void numericUpDown2_Validating(System::Object^  sender, System:
 		label9->Text = "";
 		errorProvider1->Clear();
 		errorProvider2->SetError(numericUpDown2, " ");
-		this->button1->Enabled = true;
-	}
-}
-private: System::Void textBox3_Validating(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
-	if (textBox3->Text == "") {
-		errorProvider2->Clear();
-		errorProvider1->SetError(textBox3, "Transmission type field is required");
-		label10->Text = errorProvider1->GetError(textBox3);
-		this->button1->Enabled = false;
-	}
-	else {
-		label10->Text = " ";
-		errorProvider1->Clear();
-		errorProvider2->SetError(textBox3, " ");
 		this->button1->Enabled = true;
 	}
 }
@@ -459,20 +434,6 @@ private: System::Void textBox4_Validating(System::Object^  sender, System::Compo
 		label11->Text = "";
 		errorProvider1->Clear();
 		errorProvider2->SetError(textBox4, " ");
-		this->button1->Enabled = true;
-	}
-}
-private: System::Void numericUpDown1_Validating(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
-	if (numericUpDown1->Value<=0) {
-		errorProvider2->Clear();
-		errorProvider1->SetError(numericUpDown1, "The passed distance must be grater than 0");
-		label12->Text = errorProvider1->GetError(numericUpDown1);
-		this->button1->Enabled = false;
-	}
-	else {
-		label12->Text = "";
-		errorProvider1->Clear();
-		errorProvider2->SetError(numericUpDown1, " ");
 		this->button1->Enabled = true;
 	}
 }

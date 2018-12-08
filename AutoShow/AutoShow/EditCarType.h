@@ -16,11 +16,11 @@ namespace AutoShow {
 	public ref class EditCarType : public System::Windows::Forms::Form
 	{
 	public:
-		EditCarType(CarType carType)
+		EditCarType(CarType^ carType)
 		{
 			InitializeComponent();
 			_carType = carType;
-			_carTypeRepository = gcnew _carTypeRepository();
+			_carTypeRepository = gcnew CarTypeRepository();
 			//
 			//TODO: Add the constructor code here
 			//
@@ -170,6 +170,7 @@ namespace AutoShow {
 			this->textBox2->Name = L"textBox2";
 			this->textBox2->Size = System::Drawing::Size(148, 20);
 			this->textBox2->TabIndex = 23;
+			this->textBox2->Validating += gcnew System::ComponentModel::CancelEventHandler(this, &EditCarType::textBox2_Validating);
 			// 
 			// label3
 			// 
@@ -205,6 +206,20 @@ namespace AutoShow {
 
 		}
 #pragma endregion
+		private: void FillFormFields() {
+			this->textBox1->Text = _carType->name;
+			this->textBox2->Text = _carType->description;
+		}
+
+
+	private:CarType^ GetFormFields() {
+		return gcnew CarType(
+			_carType->id,
+			textBox1->Text,
+			textBox2->Text
+		);
+	}
+
 	private: System::Void textBox1_Validating(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 		if (textBox1->Text == "") {
 			errorProvider2->Clear();
@@ -220,5 +235,7 @@ namespace AutoShow {
 			button1->Enabled = true;
 		}
 	}
+private: System::Void textBox2_Validating(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
+}
 };
 }

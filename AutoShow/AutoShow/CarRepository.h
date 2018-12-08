@@ -21,8 +21,9 @@ ref class CarRepository {
 
 		List<Car^>^ GetAllCars() {
 			List<Car^>^ list = gcnew List<Car^>();
-			String^ query = "SELECT Cars.id, Cars.name,CarProducers.name,producerId, price,transmissionType,color,passedDistance FROM Cars "
-				+"JOIN CarProducers ON CarProducers.id = Cars.producerId";
+			String^ query = "SELECT Cars.id, Cars.name,CarProducers.name,producerId, price,color,Engines.name,engineId,"
+				+"CarTypes.name,carTypeId FROM Cars JOIN CarProducers ON CarProducers.id = Cars.producerId "+
+				"JOIN CarTypes ON CarTypes.id = Cars.carTypeId JOIN Engines ON Engines.id = Cars.engineId";
 			SqlCommand^ command = gcnew SqlCommand(query, connection);
 			SqlDataReader^ reader = command->ExecuteReader();
 			while (reader->Read()) {
@@ -34,7 +35,9 @@ ref class CarRepository {
 					reader->GetInt32(4),
 					reader->GetString(5),
 					reader->GetString(6),
-					reader->GetInt32(7)
+					reader->GetInt32(7),
+					reader->GetString(8),
+					reader->GetInt32(9)
 				));
 			}
 			reader->Close();
@@ -43,8 +46,9 @@ ref class CarRepository {
 
 		Car^ GetCarById(int id) {
 			Car^ item = nullptr;
-			String^ query = "SELECT Cars.id, Cars.name, CarProducers.name, producerId, price, transmissionType, color, passedDistance FROM Cars "
-				+ "JOIN CarProducers ON CarProducers.id = Cars.producerId Where Cars.id = @id";
+			String^ query = "SELECT Cars.id, Cars.name,CarProducers.name,producerId, price,color,Engines.name,engineId,"
+				+ "CarTypes.name,carTypeId FROM Cars JOIN CarProducers ON CarProducers.id = Cars.producerId " +
+				"JOIN CarTypes ON CarTypes.id = Cars.carTypeId JOIN Engines ON Engines.id = Cars.engineId WHERE Cars.id = @id";
 			SqlCommand^ command = gcnew SqlCommand(query, connection);
 			command->Parameters->Add(gcnew SqlParameter("@id", id));
 			SqlDataReader^ reader = command->ExecuteReader();
@@ -57,7 +61,9 @@ ref class CarRepository {
 					reader->GetInt32(4),
 					reader->GetString(5),
 					reader->GetString(6),
-					reader->GetInt32(7)
+					reader->GetInt32(7),
+					reader->GetString(8),
+					reader->GetInt32(9)
 				);
 			}
 			reader->Close();
@@ -68,15 +74,15 @@ ref class CarRepository {
 			if (this->GetCarById(car->id)) {
 				return false;
 			}
-			String^ query = "INSERT INTO Cars(name,price,transmissionType,color,passedDistance,producerId) "+
-				"VALUES(@name,@price,@transmissionType,@color,@passedDistance,@producerId)";
+			String^ query = "INSERT INTO Cars(name,price,color,producerId,carTypeId,engineId) "+
+				"VALUES(@name,@price,@color,@producerId,@carTypeId,@engineId)";
 			SqlCommand^ command = gcnew SqlCommand(query, connection);
 			command->Parameters->Add(gcnew SqlParameter("@name", car->name));
 			command->Parameters->Add(gcnew SqlParameter("@price", car->price));
-			command->Parameters->Add(gcnew SqlParameter("@transmissionType", car->transmissionType));
 			command->Parameters->Add(gcnew SqlParameter("@color", car->color));
-			command->Parameters->Add(gcnew SqlParameter("@passedDistance", car->passedDistance));
+			command->Parameters->Add(gcnew SqlParameter("@carTypeId", car->carTypeId));
 			command->Parameters->Add(gcnew SqlParameter("@producerId", car->producerId));
+			command->Parameters->Add(gcnew SqlParameter("@engineId", car->engineId));
 			if (command->ExecuteNonQuery() == 0) {
 				return false;
 			}
@@ -84,14 +90,14 @@ ref class CarRepository {
 		}
 
 		bool UpdateCar(Car^ car) {
-			String^ query = "UPDATE dbo.Cars SET name=@name,price=@price,transmissionType=@transmissionType, "+
-				"passedDistance=@passedDistance, color=@color, producerId=@producerId WHERE id=@id";
+			String^ query = "UPDATE dbo.Cars SET name=@name,price=@price,engineId=@engineId, "+
+				"carTypeId=@carTypeId, color=@color, producerId=@producerId WHERE id=@id";
 			SqlCommand^ command = gcnew SqlCommand(query, connection);
 			command->Parameters->Add(gcnew SqlParameter("@id", car->id));
 			command->Parameters->Add(gcnew SqlParameter("@name", car->name));
 			command->Parameters->Add(gcnew SqlParameter("@price",car->price));
-			command->Parameters->Add(gcnew SqlParameter("@transmissionType", car->transmissionType));
-			command->Parameters->Add(gcnew SqlParameter("@passedDistance", car->passedDistance));
+			command->Parameters->Add(gcnew SqlParameter("@engineId", car->engineId));
+			command->Parameters->Add(gcnew SqlParameter("@carType", car->carTypeId));
 			command->Parameters->Add(gcnew SqlParameter("@color", car->color));
 			command->Parameters->Add(gcnew SqlParameter("@producerId", car->producerId));
 			if (command->ExecuteNonQuery() == 0) {

@@ -66,6 +66,8 @@ namespace AutoShow {
 	private: EngineRepository^ _engineRepository;
 	private: CustomerRepository^ _customerRepository;
 	private: SellingRepository^ _sellingRepository;
+	private: System::Windows::Forms::Label^  label2;
+	private: System::Windows::Forms::TextBox^  textBox1;
 	protected:
 
 	private:
@@ -92,6 +94,8 @@ namespace AutoShow {
 			this->button7 = (gcnew System::Windows::Forms::Button());
 			this->button8 = (gcnew System::Windows::Forms::Button());
 			this->button9 = (gcnew System::Windows::Forms::Button());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -100,7 +104,7 @@ namespace AutoShow {
 			this->dataGridView1->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
 			this->dataGridView1->AutoSizeRowsMode = System::Windows::Forms::DataGridViewAutoSizeRowsMode::AllCells;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Location = System::Drawing::Point(164, 102);
+			this->dataGridView1->Location = System::Drawing::Point(163, 146);
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->Size = System::Drawing::Size(525, 150);
 			this->dataGridView1->TabIndex = 0;
@@ -118,7 +122,7 @@ namespace AutoShow {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(179, 301);
+			this->button1->Location = System::Drawing::Point(178, 345);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 2;
@@ -127,7 +131,7 @@ namespace AutoShow {
 			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(381, 301);
+			this->button2->Location = System::Drawing::Point(380, 345);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(75, 23);
 			this->button2->TabIndex = 3;
@@ -136,7 +140,7 @@ namespace AutoShow {
 			// 
 			// button3
 			// 
-			this->button3->Location = System::Drawing::Point(590, 301);
+			this->button3->Location = System::Drawing::Point(589, 345);
 			this->button3->Name = L"button3";
 			this->button3->Size = System::Drawing::Size(75, 23);
 			this->button3->TabIndex = 4;
@@ -145,7 +149,7 @@ namespace AutoShow {
 			// 
 			// button4
 			// 
-			this->button4->Location = System::Drawing::Point(12, 88);
+			this->button4->Location = System::Drawing::Point(12, 138);
 			this->button4->Name = L"button4";
 			this->button4->Size = System::Drawing::Size(97, 23);
 			this->button4->TabIndex = 5;
@@ -155,7 +159,7 @@ namespace AutoShow {
 			// 
 			// button5
 			// 
-			this->button5->Location = System::Drawing::Point(12, 117);
+			this->button5->Location = System::Drawing::Point(12, 167);
 			this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(97, 23);
 			this->button5->TabIndex = 6;
@@ -165,16 +169,17 @@ namespace AutoShow {
 			// 
 			// button6
 			// 
-			this->button6->Location = System::Drawing::Point(12, 146);
+			this->button6->Location = System::Drawing::Point(12, 196);
 			this->button6->Name = L"button6";
 			this->button6->Size = System::Drawing::Size(97, 23);
 			this->button6->TabIndex = 7;
 			this->button6->Text = L"Car Types";
 			this->button6->UseVisualStyleBackColor = true;
+			this->button6->Click += gcnew System::EventHandler(this, &MainForm::button6_Click);
 			// 
 			// button7
 			// 
-			this->button7->Location = System::Drawing::Point(12, 175);
+			this->button7->Location = System::Drawing::Point(12, 225);
 			this->button7->Name = L"button7";
 			this->button7->Size = System::Drawing::Size(97, 23);
 			this->button7->TabIndex = 8;
@@ -184,7 +189,7 @@ namespace AutoShow {
 			// 
 			// button8
 			// 
-			this->button8->Location = System::Drawing::Point(12, 204);
+			this->button8->Location = System::Drawing::Point(12, 254);
 			this->button8->Name = L"button8";
 			this->button8->Size = System::Drawing::Size(97, 23);
 			this->button8->TabIndex = 9;
@@ -194,18 +199,39 @@ namespace AutoShow {
 			// 
 			// button9
 			// 
-			this->button9->Location = System::Drawing::Point(12, 233);
+			this->button9->Location = System::Drawing::Point(12, 283);
 			this->button9->Name = L"button9";
 			this->button9->Size = System::Drawing::Size(97, 23);
 			this->button9->TabIndex = 10;
 			this->button9->Text = L"Engines";
 			this->button9->UseVisualStyleBackColor = true;
+			this->button9->Click += gcnew System::EventHandler(this, &MainForm::button9_Click);
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label2->Location = System::Drawing::Point(377, 105);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(115, 17);
+			this->label2->TabIndex = 11;
+			this->label2->Text = L"Seacrh by name:";
+			// 
+			// textBox1
+			// 
+			this->textBox1->Location = System::Drawing::Point(522, 104);
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->Size = System::Drawing::Size(166, 20);
+			this->textBox1->TabIndex = 12;
 			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(757, 362);
+			this->ClientSize = System::Drawing::Size(757, 447);
+			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->label2);
 			this->Controls->Add(this->button9);
 			this->Controls->Add(this->button8);
 			this->Controls->Add(this->button7);
@@ -250,6 +276,15 @@ namespace AutoShow {
 			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCustomer);
 			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
 			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
+			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCustomer);
+			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
+			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
+			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateEngine);
+			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateEngine);
+			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteEngine);
+			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCarType);
+			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCarType);
+			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCarType);
 		}
 
 #pragma region Cars
@@ -260,8 +295,8 @@ namespace AutoShow {
 			headers->Add("Producer");
 			headers->Add("Name");
 			headers->Add("Price");
-			headers->Add("Transmission type");
-			headers->Add("Passed distance");
+			headers->Add("Engine");
+			headers->Add("Car type");
 			headers->Add("Color");
 			SetTableHeaders(headers);
 			List<Car^>^ cars = _carRepository->GetAllCars();
@@ -273,8 +308,8 @@ namespace AutoShow {
 				this->dataGridView1->Rows[i]->Cells[1]->Value = car->producer;
 				this->dataGridView1->Rows[i]->Cells[2]->Value = car->name;
 				this->dataGridView1->Rows[i]->Cells[3]->Value = car->price;
-				this->dataGridView1->Rows[i]->Cells[4]->Value = car->transmissionType;
-				this->dataGridView1->Rows[i]->Cells[5]->Value = car->passedDistance;
+				this->dataGridView1->Rows[i]->Cells[4]->Value = car->engine;
+				this->dataGridView1->Rows[i]->Cells[5]->Value = car->carType;
 				this->dataGridView1->Rows[i]->Cells[6]->Value = car->color;
 				this->dataGridView1->Rows[i]->Cells[7]->Value = car->id;
 				i++;
@@ -425,9 +460,9 @@ namespace AutoShow {
 				this->dataGridView1->Rows[i]->Cells[5]->Value = selling->id;
 				i++;
 			}
-			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateCustomer);
-			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
-			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
+			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateSelling);
+			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateSelling);
+			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteSelling);
 		}
 
 		void UpdateSelling(System::Object^  sender, System::EventArgs^  e) {
@@ -484,7 +519,7 @@ namespace AutoShow {
 			int selectedRow = dataGridView1->CurrentCell->RowIndex;
 			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[5]->Value->ToString());
 			Engine^ engineToEdit = _engineRepository->GetEngineById(id);
-			EditSelling^ form = gcnew EditSelling(engineToEdit);
+			EditSupply^ form = gcnew EditSupply(engineToEdit);
 			form->ShowDialog();
 			InitEnginesTable();
 		}
@@ -563,6 +598,12 @@ private: System::Void button7_Click(System::Object^  sender, System::EventArgs^ 
 }
 private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
 	InitSellingsTable();
+}
+private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
+	InitCarTypesTable();
+}
+private: System::Void button9_Click(System::Object^  sender, System::EventArgs^  e) {
+	InitEnginesTable();
 }
 };
 }
