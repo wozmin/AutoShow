@@ -62,6 +62,28 @@ public:
 		return item;
 	}
 
+	List<Selling^>^ GetSellingsByName(String^ name) {
+		List<Selling^>^ list = gcnew List<Selling^>();
+		String^ query = "SELECT Sellings.id, Cars.name, carId, Customers.name, customerId, count, date FROM dbo.Sellings" +
+			" JOIN Customers ON Customers.id = customerId JOIN Cars ON Cars.id = carId WHERE Customers.name LIKE '%'+@name+'%'";
+		SqlCommand^ command = gcnew SqlCommand(query, connection);
+		command->Parameters->Add(gcnew SqlParameter("@name",name));
+		SqlDataReader^ reader = command->ExecuteReader();
+		while (reader->Read()) {
+			list->Add(gcnew Selling(
+				reader->GetInt32(0),
+				reader->GetString(1),
+				reader->GetInt32(2),
+				reader->GetString(3),
+				reader->GetInt32(4),
+				reader->GetInt32(5),
+				reader->GetDateTime(6)
+			));
+		}
+		reader->Close();
+		return list;
+	}
+
 	bool CreateSelling(Selling^ selling) {
 		if (this->GetSellingById(selling->id)) {
 			return false;

@@ -5,6 +5,7 @@ using namespace System;
 using namespace System::Collections::Generic;
 using namespace System::Data::SqlClient;
 
+
 ref class CarRepository {
 	
 	private:SqlConnection ^ connection;
@@ -68,6 +69,32 @@ ref class CarRepository {
 			}
 			reader->Close();
 			return item;
+		}
+
+		List<Car^>^ GetCarsByName(String^ name) {
+			List<Car^>^ list = gcnew List<Car^>();
+			String^ query = "SELECT Cars.id, Cars.name,CarProducers.name,producerId, price,color,Engines.name,engineId,"
+				+ "CarTypes.name,carTypeId FROM Cars JOIN CarProducers ON CarProducers.id = Cars.producerId " +
+				"JOIN CarTypes ON CarTypes.id = Cars.carTypeId JOIN Engines ON Engines.id = Cars.engineId WHERE Cars.name LIKE @name+'%' ";
+			SqlCommand^ command = gcnew SqlCommand(query, connection);
+			command->Parameters->Add(gcnew SqlParameter("@name", name));
+			SqlDataReader^ reader = command->ExecuteReader();
+			while (reader->Read()) {
+				list->Add(gcnew Car(
+					reader->GetInt32(0),
+					reader->GetString(1),
+					reader->GetString(2),
+					reader->GetInt32(3),
+					reader->GetInt32(4),
+					reader->GetString(5),
+					reader->GetString(6),
+					reader->GetInt32(7),
+					reader->GetString(8),
+					reader->GetInt32(9)
+				));
+			}
+			reader->Close();
+			return list;
 		}
 
 		bool CreateCar(Car^ car){

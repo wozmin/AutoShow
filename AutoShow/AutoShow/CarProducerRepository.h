@@ -52,6 +52,23 @@ public:
 		return item;
 	}
 
+	List<CarProducer^>^ GetCarProducersByName(String^ name) {
+		List<CarProducer^>^ list = gcnew List<CarProducer^>();
+		String^ query = "SELECT * FROM dbo.CarProducers WHERE dbo.CarProducers.name LIKE '%'+@name+'%'";
+		SqlCommand^ command = gcnew SqlCommand(query, connection);
+		command->Parameters->Add(gcnew SqlParameter("@name", name));
+		SqlDataReader^ reader = command->ExecuteReader();
+		while (reader->Read()) {
+			list->Add(gcnew CarProducer(
+				reader->GetInt32(0),
+				reader->GetString(1),
+				reader->GetString(2)
+			));
+		}
+		reader->Close();
+		return list;
+	}
+
 	bool CreateCarProducer(CarProducer^ carProducer) {
 		if (this->GetCarProducerById(carProducer->id)) {
 			return false;

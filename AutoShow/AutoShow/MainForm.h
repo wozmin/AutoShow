@@ -32,7 +32,7 @@ namespace AutoShow {
 			_engineRepository = gcnew EngineRepository();
 			_customerRepository = gcnew CustomerRepository();
 			_sellingRepository = gcnew SellingRepository();
-			InitCarsTable();
+			InitCarsTable(nullptr);
 		}
 
 	protected:
@@ -244,7 +244,7 @@ namespace AutoShow {
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(115, 17);
 			this->label2->TabIndex = 11;
-			this->label2->Text = L"Seacrh by name:";
+			this->label2->Text = L"Search by name:";
 			// 
 			// textBox1
 			// 
@@ -313,10 +313,16 @@ namespace AutoShow {
 			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCarType);
 			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCarType);
 			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCarType);
+			textBox1->TextChanged -= gcnew System::EventHandler(this, &MainForm::SearchCarsByName);
+			textBox1->TextChanged -= gcnew System::EventHandler(this, &MainForm::SearchCarProducersByName);
+			textBox1->TextChanged -= gcnew System::EventHandler(this, &MainForm::SearchCarTypesByName);
+			textBox1->TextChanged -= gcnew System::EventHandler(this, &MainForm::SearchCustomersByName);
+			textBox1->TextChanged -= gcnew System::EventHandler(this, &MainForm::SearchEnginesByName);
+			textBox1->TextChanged -= gcnew System::EventHandler(this, &MainForm::SearchSellingsByName);
 		}
 
 #pragma region Cars
-		void InitCarsTable() {
+		void InitCarsTable(List<Car^>^ cars) {
 			RemoveListeners();
 			List<String^>^ headers = gcnew List<String^>();
 			headers->Add("¹");
@@ -327,8 +333,10 @@ namespace AutoShow {
 			headers->Add("Car type");
 			headers->Add("Color");
 			SetTableHeaders(headers);
-			List<Car^>^ cars = _carRepository->GetAllCars();
 			dataGridView1->Rows->Clear();
+			if (cars == nullptr) {
+				cars = _carRepository->GetAllCars();
+			}
 			int i = 0;
 			for each (Car^ car in cars) {
 				this->dataGridView1->Rows->Add();
@@ -345,6 +353,7 @@ namespace AutoShow {
 			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateCar);
 			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateCar);
 			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteCar);
+			textBox1->TextChanged += gcnew System::EventHandler(this, &MainForm::SearchCarsByName);
 		}
 
 		void UpdateCar(System::Object^  sender, System::EventArgs^  e) {
@@ -353,7 +362,7 @@ namespace AutoShow {
 			Car^ carToEdit = _carRepository->GetCarById(id);
 			EditCar^ form = gcnew EditCar(carToEdit);
 			form->ShowDialog();
-			InitCarsTable();
+			InitCarsTable(nullptr);
 		}
 
 
@@ -361,25 +370,36 @@ namespace AutoShow {
 		void CreateCar(System::Object^  sender, System::EventArgs^  e) {
 			EditCar^ form = gcnew EditCar(nullptr);
 			form->ShowDialog();
-			InitCarsTable();
+			InitCarsTable(nullptr);
 		}
 
 		void DeleteCar(System::Object^  sender, System::EventArgs^  e) {
 			int selectedRow = dataGridView1->CurrentCell->RowIndex;
 			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[7]->Value->ToString());
 			_carRepository->DeleteCar(id);
-			InitCarsTable();
+			InitCarsTable(nullptr);
+		}
+
+		void SearchCarsByName(System::Object^  sender, System::EventArgs^  e) {
+			if (textBox1->Text->Length == 0) {
+				InitCarsTable(nullptr);
+			}
+			else {
+				InitCarsTable(_carRepository->GetCarsByName(textBox1->Text));
+			}
 		}
 #pragma endregion
 #pragma region CarProducers
-		void InitCarProducersTable() {
+		void InitCarProducersTable(List<CarProducer^>^ carProducers) {
 			RemoveListeners();
 			List<String^>^ headers = gcnew List<String^>();
 			headers->Add("¹");
 			headers->Add("Name");
 			headers->Add("Country");
 			SetTableHeaders(headers);
-			List<CarProducer^>^ carProducers = _carProducerRepository->GetAllCarProducers();
+			if (carProducers == nullptr) {
+				carProducers = _carProducerRepository->GetAllCarProducers();
+			}
 			dataGridView1->Rows->Clear();
 			int i = 0;
 			for each (CarProducer^ carProducer in carProducers) {
@@ -393,6 +413,7 @@ namespace AutoShow {
 			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateCarProducer);
 			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateCarProducer);
 			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteCarProducer);
+			textBox1->TextChanged += gcnew System::EventHandler(this, &MainForm::SearchCarProducersByName);
 		}
 
 		void UpdateCarProducer(System::Object^  sender, System::EventArgs^  e) {
@@ -401,7 +422,7 @@ namespace AutoShow {
 			CarProducer^ carProducerToEdit = _carProducerRepository->GetCarProducerById(id);
 			EditProducer^ form = gcnew EditProducer(carProducerToEdit);
 			form->ShowDialog();
-			InitCarProducersTable();
+			InitCarProducersTable(nullptr);
 		}
 
 
@@ -409,25 +430,36 @@ namespace AutoShow {
 		void CreateCarProducer(System::Object^  sender, System::EventArgs^  e) {
 			EditProducer^ form = gcnew EditProducer(nullptr);
 			form->ShowDialog();
-			InitCarProducersTable();
+			InitCarProducersTable(nullptr);
 		}
 
 		void DeleteCarProducer(System::Object^  sender, System::EventArgs^  e) {
 			int selectedRow = dataGridView1->CurrentCell->RowIndex;
 			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[3]->Value->ToString());
 			_carProducerRepository->DeleteCarProducer(id);
-			InitCarProducersTable();
+			InitCarProducersTable(nullptr);
+		}
+
+		void SearchCarProducersByName(System::Object^  sender, System::EventArgs^  e) {
+			if (textBox1->Text->Length == 0) {
+				InitCarProducersTable(nullptr);
+			}
+			else {
+				InitCarProducersTable(_carProducerRepository->GetCarProducersByName(textBox1->Text));
+			}
 		}
 #pragma endregion
 #pragma region Customers
-		void InitCustomersTable() {
+		void InitCustomersTable(List<Customer^>^ customers) {
 			RemoveListeners();
 			List<String^>^ headers = gcnew List<String^>();
 			headers->Add("¹");
 			headers->Add("Name");
 			headers->Add("Address");
 			SetTableHeaders(headers);
-			List<Customer^>^ customers = _customerRepository->GetAllCustomers();
+			if (customers == nullptr) {
+				customers = _customerRepository->GetAllCustomers();
+			}
 			dataGridView1->Rows->Clear();
 			int i = 0;
 			for each (Customer^ customer in customers) {
@@ -441,6 +473,7 @@ namespace AutoShow {
 			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateCustomer);
 			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
 			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
+			textBox1->TextChanged += gcnew System::EventHandler(this, &MainForm::SearchCustomersByName);
 		}
 
 		void UpdateCustomer(System::Object^  sender, System::EventArgs^  e) {
@@ -449,24 +482,33 @@ namespace AutoShow {
 			Customer^ customerToEdit = _customerRepository->GetCustomerById(id);
 			EditCustomer^ form = gcnew EditCustomer(customerToEdit);
 			form->ShowDialog();
-			InitCustomersTable();
+			InitCustomersTable(nullptr);
 		}
 
 		void CreateCustomer(System::Object^  sender, System::EventArgs^  e) {
 			EditCustomer^ form = gcnew EditCustomer(nullptr);
 			form->ShowDialog();
-			InitCustomersTable();
+			InitCustomersTable(nullptr);
 		}
 
 		void DeleteCustomer(System::Object^  sender, System::EventArgs^  e) {
 			int selectedRow = dataGridView1->CurrentCell->RowIndex;
 			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[3]->Value->ToString());
 			_customerRepository->DeleteCustomer(id);
-			InitCustomersTable();
+			InitCustomersTable(nullptr);
+		}
+
+		void SearchCustomersByName(System::Object^  sender, System::EventArgs^  e) {
+			if (textBox1->Text->Length == 0) {
+				InitCustomersTable(nullptr);
+			}
+			else {
+				InitCustomersTable(_customerRepository->GetCustomersByName(textBox1->Text));
+			}
 		}
 #pragma endregion
 #pragma region Sellings
-		void InitSellingsTable() {
+		void InitSellingsTable(List<Selling^>^ sellings) {
 			RemoveListeners();
 			List<String^>^ headers = gcnew List<String^>();
 			headers->Add("¹");
@@ -475,7 +517,10 @@ namespace AutoShow {
 			headers->Add("Count");
 			headers->Add("Date");
 			SetTableHeaders(headers);
-			List<Selling^>^ sellings = _sellingRepository->GetAllSellings();
+			if (sellings == nullptr) {
+				sellings =_sellingRepository->GetAllSellings();
+			}
+			
 			dataGridView1->Rows->Clear();
 			int i = 0;
 			for each (Selling^ selling in sellings) {
@@ -491,6 +536,7 @@ namespace AutoShow {
 			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateSelling);
 			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateSelling);
 			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteSelling);
+			textBox1->TextChanged += gcnew System::EventHandler(this, &MainForm::SearchSellingsByName);
 		}
 
 		void UpdateSelling(System::Object^  sender, System::EventArgs^  e) {
@@ -499,24 +545,33 @@ namespace AutoShow {
 			Selling^ sellingToEdit = _sellingRepository->GetSellingById(id);
 			EditSelling^ form = gcnew EditSelling(sellingToEdit);
 			form->ShowDialog();
-			InitSellingsTable();
+			InitSellingsTable(nullptr);
 		}
 
 		void CreateSelling(System::Object^  sender, System::EventArgs^  e) {
 			EditSelling^ form = gcnew EditSelling(nullptr);
 			form->ShowDialog();
-			InitSellingsTable();
+			InitSellingsTable(nullptr);
 		}
 
 		void DeleteSelling(System::Object^  sender, System::EventArgs^  e) {
 			int selectedRow = dataGridView1->CurrentCell->RowIndex;
 			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[5]->Value->ToString());
 			_sellingRepository->DeleteSelling(id);
-			InitSellingsTable();
+			InitSellingsTable(nullptr);
+		}
+
+		void SearchSellingsByName(System::Object^  sender, System::EventArgs^  e) {
+			if (textBox1->Text->Length == 0) {
+				InitSellingsTable(nullptr);
+			}
+			else {
+				InitSellingsTable(_sellingRepository->GetSellingsByName(textBox1->Text));
+			}
 		}
 #pragma endregion
 #pragma region Engines
-		void InitEnginesTable() {
+		void InitEnginesTable(List<Engine^>^ engines) {
 			RemoveListeners();
 			List<String^>^ headers = gcnew List<String^>();
 			headers->Add("¹");
@@ -525,7 +580,9 @@ namespace AutoShow {
 			headers->Add("Capacity");
 			headers->Add("Fuel consumption");
 			SetTableHeaders(headers);
-			List<Engine^>^ engines = _engineRepository->GetAllEngines();
+			if (engines == nullptr) {
+				engines = _engineRepository->GetAllEngines();
+			}
 			dataGridView1->Rows->Clear();
 			int i = 0;
 			for each (Engine^ engine in engines) {
@@ -541,6 +598,7 @@ namespace AutoShow {
 			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateEngine);
 			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateEngine);
 			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteEngine);
+			textBox1->TextChanged += gcnew System::EventHandler(this, &MainForm::SearchEnginesByName);
 		}
 
 		void UpdateEngine(System::Object^  sender, System::EventArgs^  e) {
@@ -549,31 +607,42 @@ namespace AutoShow {
 			Engine^ engineToEdit = _engineRepository->GetEngineById(id);
 			EditSupply^ form = gcnew EditSupply(engineToEdit);
 			form->ShowDialog();
-			InitEnginesTable();
+			InitEnginesTable(nullptr);
 		}
 
 		void CreateEngine(System::Object^  sender, System::EventArgs^  e) {
 			EditSupply^ form = gcnew EditSupply(nullptr);
 			form->ShowDialog();
-			InitEnginesTable();
+			InitEnginesTable(nullptr);
 		}
 
 		void DeleteEngine(System::Object^  sender, System::EventArgs^  e) {
 			int selectedRow = dataGridView1->CurrentCell->RowIndex;
 			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[5]->Value->ToString());
 			_engineRepository->DeleteEngine(id);
-			InitEnginesTable();
+			InitEnginesTable(nullptr);
+		}
+
+		void SearchEnginesByName(System::Object^  sender, System::EventArgs^  e) {
+			if (textBox1->Text->Length == 0) {
+				InitEnginesTable(nullptr);
+			}
+			else {
+				InitEnginesTable(_engineRepository->GetEnginesByName(textBox1->Text));
+			}
 		}
 #pragma endregion
 #pragma region CarTypes
-		void InitCarTypesTable() {
+		void InitCarTypesTable(List<CarType^>^ carTypes) {
 			RemoveListeners();
 			List<String^>^ headers = gcnew List<String^>();
 			headers->Add("¹");
 			headers->Add("Name");
 			headers->Add("Description");
 			SetTableHeaders(headers);
-			List<CarType^>^ carTypes = _carTypeRepository->GetAllCarTypes();
+			if (carTypes == nullptr) {
+				carTypes = _carTypeRepository->GetAllCarTypes();
+			}
 			dataGridView1->Rows->Clear();
 			int i = 0;
 			for each (CarType^ carType in carTypes) {
@@ -587,6 +656,7 @@ namespace AutoShow {
 			button1->Click += gcnew System::EventHandler(this, &MainForm::CreateCarType);
 			button2->Click += gcnew System::EventHandler(this, &MainForm::UpdateCarType);
 			button3->Click += gcnew System::EventHandler(this, &MainForm::DeleteCarType);
+			textBox1->TextChanged += gcnew System::EventHandler(this, &MainForm::SearchCarTypesByName);
 		}
 
 		void UpdateCarType(System::Object^  sender, System::EventArgs^  e) {
@@ -595,20 +665,29 @@ namespace AutoShow {
 			CarType^ carTypeToEdit = _carTypeRepository->GetCarTypeById(id);
 			EditCarType^ form = gcnew EditCarType(carTypeToEdit);
 			form->ShowDialog();
-			InitEnginesTable();
+			InitEnginesTable(nullptr);
 		}
 
 		void CreateCarType(System::Object^  sender, System::EventArgs^  e) {
 			EditCarType^ form = gcnew EditCarType(nullptr);
 			form->ShowDialog();
-			InitCarTypesTable();
+			InitCarTypesTable(nullptr);
 		}
 
 		void DeleteCarType(System::Object^  sender, System::EventArgs^  e) {
 			int selectedRow = dataGridView1->CurrentCell->RowIndex;
 			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[3]->Value->ToString());
 			_carTypeRepository->DeleteCarType(id);
-			InitCarTypesTable();
+			InitCarTypesTable(nullptr);
+		}
+
+		void SearchCarTypesByName(System::Object^  sender, System::EventArgs^  e) {
+			if (textBox1->Text->Length == 0) {
+				InitCarTypesTable(nullptr);
+			}
+			else {
+				InitCarTypesTable(_carTypeRepository->GetCarTypesByName(textBox1->Text));
+			}
 		}
 #pragma endregion
 
@@ -616,22 +695,25 @@ namespace AutoShow {
 
 #pragma endregion
 	private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
-		InitCarsTable();
+		InitCarsTable(nullptr);
 	}
 private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
-	InitCarProducersTable();
+	InitCarProducersTable(nullptr);
 }
 private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
-	InitCustomersTable();
+	InitCustomersTable(nullptr);
 }
 private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
-	InitSellingsTable();
+	InitSellingsTable(nullptr);
 }
 private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
-	InitCarTypesTable();
+	InitCarTypesTable(nullptr);
 }
 private: System::Void button9_Click(System::Object^  sender, System::EventArgs^  e) {
-	InitEnginesTable();
+	InitEnginesTable(nullptr);
+}
+private: System::Void textBox1_TextChanged(System::Object^  sender, System::EventArgs^  e) {
+	
 }
 };
 }

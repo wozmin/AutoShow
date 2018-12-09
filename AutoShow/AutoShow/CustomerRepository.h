@@ -53,6 +53,23 @@ public:
 		return item;
 	}
 
+	List<Customer^>^ GetCustomersByName(String^ name) {
+		List<Customer^>^ list = gcnew List<Customer^>();
+		String^ query = "SELECT * FROM dbo.Customers WHERE dbo.Customers.name LIKE '%'+@name+'%'";
+		SqlCommand^ command = gcnew SqlCommand(query, connection);
+		command->Parameters->Add(gcnew SqlParameter("@name", name));
+		SqlDataReader^ reader = command->ExecuteReader();
+		while (reader->Read()) {
+			list->Add(gcnew Customer(
+				reader->GetInt32(0),
+				reader->GetString(1),
+				reader->GetString(2)
+			));
+		}
+		reader->Close();
+		return list;
+	}
+
 	bool CreateCustomer(Customer^ customer) {
 		if (this->GetCustomerById(customer->id)) {
 			return false;

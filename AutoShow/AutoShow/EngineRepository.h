@@ -56,6 +56,25 @@ public:
 		return item;
 	}
 
+	List<Engine^>^ GetEnginesByName(String^ name) {
+		List<Engine^>^ list = gcnew List<Engine^>();
+		String^ query = "SELECT * FROM dbo.Engines WHERE dbo.Engines.name LIKE '%'+@name+'%'";
+		SqlCommand^ command = gcnew SqlCommand(query, connection);
+		command->Parameters->Add(gcnew SqlParameter("@name",name));
+		SqlDataReader^ reader = command->ExecuteReader();
+		while (reader->Read()) {
+			list->Add(gcnew Engine(
+				reader->GetInt32(0),
+				reader->GetString(1),
+				reader->GetString(2),
+				reader->GetInt32(3),
+				reader->GetInt32(4)
+			));
+		}
+		reader->Close();
+		return list;
+	}
+
 	bool CreateEngine(Engine^ engine) {
 		if (this->GetEngineById(engine->id)) {
 			return false;
