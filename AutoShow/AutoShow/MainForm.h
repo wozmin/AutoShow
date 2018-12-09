@@ -665,7 +665,7 @@ namespace AutoShow {
 			CarType^ carTypeToEdit = _carTypeRepository->GetCarTypeById(id);
 			EditCarType^ form = gcnew EditCarType(carTypeToEdit);
 			form->ShowDialog();
-			InitEnginesTable(nullptr);
+			InitCarTypesTable(nullptr);
 		}
 
 		void CreateCarType(System::Object^  sender, System::EventArgs^  e) {

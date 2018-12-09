@@ -18,4 +18,8 @@ ref class CarType {
 		{
 			this->id = id;
 		}
+
+		String^ ToString() override {
+			return this->name;
+		}
 };

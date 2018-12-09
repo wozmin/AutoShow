@@ -21,6 +21,9 @@ namespace AutoShow {
 			InitializeComponent();
 			_carType = carType;
 			_carTypeRepository = gcnew CarTypeRepository();
+			if (carType != nullptr) {
+				FillFormFields();
+			}
 			//
 			//TODO: Add the constructor code here
 			//

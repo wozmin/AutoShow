@@ -23,5 +23,9 @@ ref class Engine {
 			this->id = id;
 		}
 
+		String^ ToString() override {
+			return this->name;
+		}
+
 
 };
