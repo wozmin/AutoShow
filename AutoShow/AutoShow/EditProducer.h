@@ -88,30 +88,34 @@ namespace AutoShow {
 			// 
 			// button2
 			// 
+			this->button2->BackColor = System::Drawing::Color::Coral;
+			this->button2->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->button2->Location = System::Drawing::Point(204, 223);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(75, 23);
 			this->button2->TabIndex = 32;
 			this->button2->Text = L"Cancel";
-			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &EditProducer::Cancel);
+			this->button2->UseVisualStyleBackColor = false;
+			this->button2->Click += gcnew System::EventHandler(this, &EditProducer::SaveCarProducer);
 			// 
 			// button1
 			// 
+			this->button1->BackColor = System::Drawing::Color::MediumSpringGreen;
 			this->button1->Enabled = false;
+			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button1->ForeColor = System::Drawing::Color::Black;
 			this->button1->Location = System::Drawing::Point(61, 223);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 31;
 			this->button1->Text = L"Save";
-			this->button1->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &EditProducer::SaveCarProducer);
+			this->button1->UseVisualStyleBackColor = false;
 			// 
 			// label2
 			// 
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label2->ForeColor = System::Drawing::Color::DarkRed;
+			this->label2->ForeColor = System::Drawing::Color::Red;
 			this->label2->Location = System::Drawing::Point(129, 161);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(150, 26);
@@ -131,6 +135,7 @@ namespace AutoShow {
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
+			this->label3->ForeColor = System::Drawing::Color::Gold;
 			this->label3->Location = System::Drawing::Point(58, 139);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(61, 17);
@@ -141,7 +146,7 @@ namespace AutoShow {
 			// 
 			this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label8->ForeColor = System::Drawing::Color::DarkRed;
+			this->label8->ForeColor = System::Drawing::Color::Red;
 			this->label8->Location = System::Drawing::Point(129, 106);
 			this->label8->Name = L"label8";
 			this->label8->Size = System::Drawing::Size(150, 26);
@@ -153,6 +158,7 @@ namespace AutoShow {
 			this->label7->AutoSize = true;
 			this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
+			this->label7->ForeColor = System::Drawing::Color::Cyan;
 			this->label7->Location = System::Drawing::Point(127, 26);
 			this->label7->Name = L"label7";
 			this->label7->Size = System::Drawing::Size(138, 26);
@@ -172,6 +178,7 @@ namespace AutoShow {
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
+			this->label1->ForeColor = System::Drawing::Color::Gold;
 			this->label1->Location = System::Drawing::Point(58, 84);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(49, 17);
@@ -190,6 +197,7 @@ namespace AutoShow {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::Color::DarkSlateGray;
 			this->ClientSize = System::Drawing::Size(357, 279);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);

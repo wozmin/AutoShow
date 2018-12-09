@@ -101,6 +101,7 @@ namespace AutoShow {
 			this->label7->AutoSize = true;
 			this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
+			this->label7->ForeColor = System::Drawing::Color::Cyan;
 			this->label7->Location = System::Drawing::Point(134, 19);
 			this->label7->Name = L"label7";
 			this->label7->Size = System::Drawing::Size(107, 26);
@@ -120,6 +121,7 @@ namespace AutoShow {
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
+			this->label1->ForeColor = System::Drawing::Color::Gold;
 			this->label1->Location = System::Drawing::Point(65, 77);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(49, 17);
@@ -150,6 +152,7 @@ namespace AutoShow {
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
+			this->label3->ForeColor = System::Drawing::Color::Gold;
 			this->label3->Location = System::Drawing::Point(65, 132);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(64, 17);
@@ -158,22 +161,26 @@ namespace AutoShow {
 			// 
 			// button1
 			// 
+			this->button1->BackColor = System::Drawing::Color::MediumSpringGreen;
 			this->button1->Enabled = false;
+			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->button1->Location = System::Drawing::Point(68, 216);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 22;
 			this->button1->Text = L"Save";
-			this->button1->UseVisualStyleBackColor = true;
+			this->button1->UseVisualStyleBackColor = false;
 			// 
 			// button2
 			// 
+			this->button2->BackColor = System::Drawing::Color::Coral;
+			this->button2->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->button2->Location = System::Drawing::Point(211, 216);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(75, 23);
 			this->button2->TabIndex = 23;
 			this->button2->Text = L"Cancel";
-			this->button2->UseVisualStyleBackColor = true;
+			this->button2->UseVisualStyleBackColor = false;
 			// 
 			// errorProvider1
 			// 
@@ -187,6 +194,7 @@ namespace AutoShow {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::Color::DarkSlateGray;
 			this->ClientSize = System::Drawing::Size(344, 282);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);

@@ -83,6 +83,7 @@ namespace AutoShow {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
 			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
@@ -104,9 +105,9 @@ namespace AutoShow {
 			this->dataGridView1->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
 			this->dataGridView1->AutoSizeRowsMode = System::Windows::Forms::DataGridViewAutoSizeRowsMode::AllCells;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->dataGridView1->Location = System::Drawing::Point(163, 146);
+			this->dataGridView1->Location = System::Drawing::Point(154, 146);
 			this->dataGridView1->Name = L"dataGridView1";
-			this->dataGridView1->Size = System::Drawing::Size(525, 150);
+			this->dataGridView1->Size = System::Drawing::Size(578, 225);
 			this->dataGridView1->TabIndex = 0;
 			// 
 			// label1
@@ -114,6 +115,7 @@ namespace AutoShow {
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 22, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
+			this->label1->ForeColor = System::Drawing::Color::Turquoise;
 			this->label1->Location = System::Drawing::Point(375, 22);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(77, 36);
@@ -122,89 +124,117 @@ namespace AutoShow {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(178, 345);
+			this->button1->BackColor = System::Drawing::Color::DarkSlateGray;
+			this->button1->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button1.BackgroundImage")));
+			this->button1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button1->ForeColor = System::Drawing::Color::DarkSlateGray;
+			this->button1->Location = System::Drawing::Point(190, 392);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 23);
+			this->button1->Size = System::Drawing::Size(71, 43);
 			this->button1->TabIndex = 2;
-			this->button1->Text = L"Add";
-			this->button1->UseVisualStyleBackColor = true;
+			this->button1->UseVisualStyleBackColor = false;
 			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(380, 345);
+			this->button2->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button2.BackgroundImage")));
+			this->button2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->button2->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button2->ForeColor = System::Drawing::Color::DarkSlateGray;
+			this->button2->Location = System::Drawing::Point(380, 392);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 23);
+			this->button2->Size = System::Drawing::Size(71, 43);
 			this->button2->TabIndex = 3;
-			this->button2->Text = L"Edit";
 			this->button2->UseVisualStyleBackColor = true;
 			// 
 			// button3
 			// 
-			this->button3->Location = System::Drawing::Point(589, 345);
+			this->button3->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button3.BackgroundImage")));
+			this->button3->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->button3->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button3->ForeColor = System::Drawing::Color::DarkSlateGray;
+			this->button3->Location = System::Drawing::Point(568, 392);
 			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(75, 23);
+			this->button3->Size = System::Drawing::Size(71, 43);
 			this->button3->TabIndex = 4;
-			this->button3->Text = L"Delete";
 			this->button3->UseVisualStyleBackColor = true;
 			// 
 			// button4
 			// 
-			this->button4->Location = System::Drawing::Point(12, 138);
+			this->button4->BackColor = System::Drawing::Color::YellowGreen;
+			this->button4->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button4->ForeColor = System::Drawing::Color::Maroon;
+			this->button4->Location = System::Drawing::Point(23, 141);
 			this->button4->Name = L"button4";
 			this->button4->Size = System::Drawing::Size(97, 23);
 			this->button4->TabIndex = 5;
 			this->button4->Text = L"Cars";
-			this->button4->UseVisualStyleBackColor = true;
+			this->button4->UseVisualStyleBackColor = false;
 			this->button4->Click += gcnew System::EventHandler(this, &MainForm::button4_Click);
 			// 
 			// button5
 			// 
-			this->button5->Location = System::Drawing::Point(12, 167);
+			this->button5->BackColor = System::Drawing::Color::YellowGreen;
+			this->button5->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button5->ForeColor = System::Drawing::Color::Maroon;
+			this->button5->Location = System::Drawing::Point(23, 180);
 			this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(97, 23);
 			this->button5->TabIndex = 6;
 			this->button5->Text = L"Producers";
-			this->button5->UseVisualStyleBackColor = true;
+			this->button5->UseVisualStyleBackColor = false;
 			this->button5->Click += gcnew System::EventHandler(this, &MainForm::button5_Click);
 			// 
 			// button6
 			// 
-			this->button6->Location = System::Drawing::Point(12, 196);
+			this->button6->BackColor = System::Drawing::Color::YellowGreen;
+			this->button6->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button6->ForeColor = System::Drawing::Color::Maroon;
+			this->button6->Location = System::Drawing::Point(23, 225);
 			this->button6->Name = L"button6";
 			this->button6->Size = System::Drawing::Size(97, 23);
 			this->button6->TabIndex = 7;
 			this->button6->Text = L"Car Types";
-			this->button6->UseVisualStyleBackColor = true;
+			this->button6->UseVisualStyleBackColor = false;
 			this->button6->Click += gcnew System::EventHandler(this, &MainForm::button6_Click);
 			// 
 			// button7
 			// 
-			this->button7->Location = System::Drawing::Point(12, 225);
+			this->button7->BackColor = System::Drawing::Color::YellowGreen;
+			this->button7->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button7->ForeColor = System::Drawing::Color::Maroon;
+			this->button7->Location = System::Drawing::Point(23, 264);
 			this->button7->Name = L"button7";
 			this->button7->Size = System::Drawing::Size(97, 23);
 			this->button7->TabIndex = 8;
 			this->button7->Text = L"Customers";
-			this->button7->UseVisualStyleBackColor = true;
+			this->button7->UseVisualStyleBackColor = false;
 			this->button7->Click += gcnew System::EventHandler(this, &MainForm::button7_Click);
 			// 
 			// button8
 			// 
-			this->button8->Location = System::Drawing::Point(12, 254);
+			this->button8->BackColor = System::Drawing::Color::YellowGreen;
+			this->button8->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button8->ForeColor = System::Drawing::Color::Maroon;
+			this->button8->Location = System::Drawing::Point(23, 310);
 			this->button8->Name = L"button8";
 			this->button8->Size = System::Drawing::Size(97, 23);
 			this->button8->TabIndex = 9;
 			this->button8->Text = L"Sellings";
-			this->button8->UseVisualStyleBackColor = true;
+			this->button8->UseVisualStyleBackColor = false;
 			this->button8->Click += gcnew System::EventHandler(this, &MainForm::button8_Click);
 			// 
 			// button9
 			// 
-			this->button9->Location = System::Drawing::Point(12, 283);
+			this->button9->BackColor = System::Drawing::Color::YellowGreen;
+			this->button9->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button9->ForeColor = System::Drawing::Color::Maroon;
+			this->button9->Location = System::Drawing::Point(23, 356);
 			this->button9->Name = L"button9";
 			this->button9->Size = System::Drawing::Size(97, 23);
 			this->button9->TabIndex = 10;
 			this->button9->Text = L"Engines";
-			this->button9->UseVisualStyleBackColor = true;
+			this->button9->UseVisualStyleBackColor = false;
 			this->button9->Click += gcnew System::EventHandler(this, &MainForm::button9_Click);
 			// 
 			// label2
@@ -212,6 +242,7 @@ namespace AutoShow {
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
+			this->label2->ForeColor = System::Drawing::Color::Gold;
 			this->label2->Location = System::Drawing::Point(377, 105);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(115, 17);
@@ -229,7 +260,8 @@ namespace AutoShow {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(757, 447);
+			this->BackColor = System::Drawing::Color::DarkSlateGray;
+			this->ClientSize = System::Drawing::Size(757, 483);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->button9);
