@@ -71,6 +71,7 @@ namespace AutoShow {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(EditProducer::typeid));
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label2 = (gcnew System::Windows::Forms::Label());
@@ -96,7 +97,7 @@ namespace AutoShow {
 			this->button2->TabIndex = 32;
 			this->button2->Text = L"Cancel";
 			this->button2->UseVisualStyleBackColor = false;
-			this->button2->Click += gcnew System::EventHandler(this, &EditProducer::SaveCarProducer);
+			this->button2->Click += gcnew System::EventHandler(this, &EditProducer::Cancel);
 			// 
 			// button1
 			// 
@@ -110,6 +111,7 @@ namespace AutoShow {
 			this->button1->TabIndex = 31;
 			this->button1->Text = L"Save";
 			this->button1->UseVisualStyleBackColor = false;
+			this->button1->Click += gcnew System::EventHandler(this, &EditProducer::SaveCarProducer);
 			// 
 			// label2
 			// 
@@ -192,6 +194,7 @@ namespace AutoShow {
 			// errorProvider2
 			// 
 			this->errorProvider2->ContainerControl = this;
+			this->errorProvider2->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"errorProvider2.Icon")));
 			// 
 			// EditProducer
 			// 
@@ -208,6 +211,7 @@ namespace AutoShow {
 			this->Controls->Add(this->label7);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->label1);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Name = L"EditProducer";
 			this->Text = L"EditProducer";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->errorProvider1))->EndInit();
@@ -224,14 +228,15 @@ namespace AutoShow {
 
 	private:CarProducer^ GetFormFields() {
 		return gcnew CarProducer(
-			_carProducer->id,
 			textBox1->Text,
 			textBox2->Text
 		);
 	}
 	private: System::Void SaveCarProducer(System::Object^ sender, System::EventArgs^ e) {
 		if (_carProducer != nullptr) {
-			_carProducerRepository->UpdateCarProducer(GetFormFields());
+			CarProducer^ carProducerToEdit = GetFormFields();
+			carProducerToEdit->id = _carProducer->id;
+			_carProducerRepository->UpdateCarProducer(carProducerToEdit);
 			this->Close();
 		}
 		else {
@@ -244,7 +249,7 @@ namespace AutoShow {
 		this->Close();
 	}
 	private: System::Void textBox1_Validating(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
-		if (textBox1->Text == "") {
+		if (textBox1->Text->Length == 0) {
 			errorProvider2->Clear();
 			errorProvider1->SetError(textBox1, "The name field is required");
 			label8->Text = errorProvider1->GetError(textBox1);
@@ -258,7 +263,7 @@ namespace AutoShow {
 		}
 	}
 private: System::Void textBox2_Validating(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
-	if (textBox2->Text == "") {
+	if (textBox2->Text->Length == 0) {
 		errorProvider2->Clear();
 		errorProvider1->SetError(textBox2, "The country field is required");
 		label2->Text = errorProvider1->GetError(textBox2);

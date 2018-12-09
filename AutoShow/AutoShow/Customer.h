@@ -18,4 +18,8 @@ ref class Customer {
 		Customer(int id, String^ name, String^ address) :Customer(name, address) {
 			this->id = id;
 		}
+
+		String^ ToString() override {
+			return this->name;
+		}
 };

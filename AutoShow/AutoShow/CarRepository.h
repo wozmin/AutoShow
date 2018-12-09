@@ -97,7 +97,7 @@ ref class CarRepository {
 			command->Parameters->Add(gcnew SqlParameter("@name", car->name));
 			command->Parameters->Add(gcnew SqlParameter("@price",car->price));
 			command->Parameters->Add(gcnew SqlParameter("@engineId", car->engineId));
-			command->Parameters->Add(gcnew SqlParameter("@carType", car->carTypeId));
+			command->Parameters->Add(gcnew SqlParameter("@carTypeId", car->carTypeId));
 			command->Parameters->Add(gcnew SqlParameter("@color", car->color));
 			command->Parameters->Add(gcnew SqlParameter("@producerId", car->producerId));
 			if (command->ExecuteNonQuery() == 0) {

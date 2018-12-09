@@ -60,7 +60,7 @@ public:
 		if (this->GetEngineById(engine->id)) {
 			return false;
 		}
-		String^ query = "INSERT INTO Engines(name,fuelType,capacity,fuelConsumption VALUES(@name,@fuleType,@capacity,@fuelConsumption)";
+		String^ query = "INSERT INTO Engines(name,fuelType,capacity,fuelConsumption) VALUES(@name,@fuelType,@capacity,@fuelConsumption)";
 		SqlCommand^ command = gcnew SqlCommand(query, connection);
 		command->Parameters->Add(gcnew SqlParameter("@name", engine->name));
 		command->Parameters->Add(gcnew SqlParameter("@fuelType", engine->fuelType));

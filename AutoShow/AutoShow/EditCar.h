@@ -30,6 +30,8 @@ namespace AutoShow {
 			this->_engineRepository = gcnew EngineRepository();
 			this->_carTypeRepository = gcnew CarTypeRepository();
 			this->comboBox1->DataSource = _carProducerRepository->GetAllCarProducers();
+			this->comboBox2->DataSource = _engineRepository->GetAllEngines();
+			this->comboBox3->DataSource = _carTypeRepository->GetAllCarTypes();
 			if (car) {
 				FillFormFields();
 			}
@@ -378,7 +380,6 @@ private:Car^ GetFormFields() {
 	Engine^ selectedEngine = (Engine^)comboBox2->SelectedItem;
 	CarType^ selectedCarType = (CarType^)comboBox3->SelectedItem;
 	return gcnew Car(
-		_car->id,
 		textBox1->Text,
 		selectedProducer->name,
 		selectedProducer->id,
@@ -423,7 +424,9 @@ private: System::Void EditCar_Load(System::Object^  sender, System::EventArgs^  
 
 private: System::Void SaveCar(System::Object^ sender, System::EventArgs^ e) {
 	if (_car != nullptr) {
-		_carRepository->UpdateCar(GetFormFields());
+		Car^ carToEdit = GetFormFields();
+		carToEdit->id = _car->id;
+		_carRepository->UpdateCar(carToEdit);
 		this->Close();
 	}
 	else {

@@ -70,6 +70,7 @@ public:
 		String^ query = "UPDATE dbo.CarProducers SET name=@name,country=@country WHERE id=@id";
 		SqlCommand^ command = gcnew SqlCommand(query, connection);
 		command->Parameters->Add(gcnew SqlParameter("@id", carProducer->id));
+		command->Parameters->Add(gcnew SqlParameter("@name", carProducer->name));
 		command->Parameters->Add(gcnew SqlParameter("@country", carProducer->country));
 		if (command->ExecuteNonQuery() == 0) {
 			return false;

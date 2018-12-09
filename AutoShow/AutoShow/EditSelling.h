@@ -1,5 +1,7 @@
 #pragma once
 #include "SellingRepository.h"
+#include "CarRepository.h"
+#include "CustomerRepository.h"
 
 namespace AutoShow {
 
@@ -19,9 +21,15 @@ namespace AutoShow {
 		EditSelling(Selling^ selling)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			_selling = selling;
+			_carRepository = gcnew CarRepository();
+			_customerRepository = gcnew CustomerRepository();
+			_sellingRepository = gcnew SellingRepository();
+			this->comboBox1->DataSource = _carRepository->GetAllCars();
+			this->comboBox2->DataSource = _customerRepository->GetAllCustomers();
+			if (selling) {
+				FillFormFields();
+			}
 		}
 
 	protected:
@@ -54,6 +62,10 @@ namespace AutoShow {
 	private: System::Windows::Forms::ErrorProvider^  errorProvider1;
 	private: System::Windows::Forms::ErrorProvider^  errorProvider2;
 	private: System::ComponentModel::IContainer^  components;
+	private: CarRepository^ _carRepository;
+	private: CustomerRepository^ _customerRepository;
+	private: SellingRepository^ _sellingRepository;
+	private: Selling^ _selling;
 
 	private:
 		/// <summary>
@@ -94,24 +106,26 @@ namespace AutoShow {
 			// 
 			this->button2->BackColor = System::Drawing::Color::Coral;
 			this->button2->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button2->Location = System::Drawing::Point(222, 338);
+			this->button2->Location = System::Drawing::Point(222, 362);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(75, 23);
 			this->button2->TabIndex = 41;
 			this->button2->Text = L"Cancel";
 			this->button2->UseVisualStyleBackColor = false;
+			this->button2->Click += gcnew System::EventHandler(this, &EditSelling::Cancel);
 			// 
 			// button1
 			// 
 			this->button1->BackColor = System::Drawing::Color::MediumSpringGreen;
 			this->button1->Enabled = false;
 			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button1->Location = System::Drawing::Point(79, 338);
+			this->button1->Location = System::Drawing::Point(79, 362);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 40;
 			this->button1->Text = L"Save";
 			this->button1->UseVisualStyleBackColor = false;
+			this->button1->Click += gcnew System::EventHandler(this, &EditSelling::SaveSelling);
 			// 
 			// label3
 			// 
@@ -172,7 +186,7 @@ namespace AutoShow {
 			this->label4->ForeColor = System::Drawing::Color::Red;
 			this->label4->Location = System::Drawing::Point(147, 230);
 			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(150, 26);
+			this->label4->Size = System::Drawing::Size(150, 40);
 			this->label4->TabIndex = 45;
 			this->label4->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			// 
@@ -182,11 +196,11 @@ namespace AutoShow {
 			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->label5->ForeColor = System::Drawing::Color::Gold;
-			this->label5->Location = System::Drawing::Point(50, 209);
+			this->label5->Location = System::Drawing::Point(78, 212);
 			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(72, 17);
+			this->label5->Size = System::Drawing::Size(44, 17);
 			this->label5->TabIndex = 44;
-			this->label5->Text = L"Customer:";
+			this->label5->Text = L"Price:";
 			// 
 			// numericUpDown1
 			// 
@@ -201,9 +215,9 @@ namespace AutoShow {
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->label2->ForeColor = System::Drawing::Color::Red;
-			this->label2->Location = System::Drawing::Point(147, 280);
+			this->label2->Location = System::Drawing::Point(147, 296);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(150, 26);
+			this->label2->Size = System::Drawing::Size(150, 41);
 			this->label2->TabIndex = 48;
 			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			// 
@@ -213,7 +227,7 @@ namespace AutoShow {
 			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->label6->ForeColor = System::Drawing::Color::Gold;
-			this->label6->Location = System::Drawing::Point(80, 250);
+			this->label6->Location = System::Drawing::Point(78, 277);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(42, 17);
 			this->label6->TabIndex = 47;
@@ -221,10 +235,11 @@ namespace AutoShow {
 			// 
 			// dateTimePicker1
 			// 
-			this->dateTimePicker1->Location = System::Drawing::Point(150, 259);
+			this->dateTimePicker1->Location = System::Drawing::Point(150, 273);
 			this->dateTimePicker1->Name = L"dateTimePicker1";
 			this->dateTimePicker1->Size = System::Drawing::Size(147, 20);
 			this->dateTimePicker1->TabIndex = 49;
+			this->dateTimePicker1->Validating += gcnew System::ComponentModel::CancelEventHandler(this, &EditSelling::dateTimePicker1_Validating);
 			// 
 			// errorProvider1
 			// 
@@ -254,6 +269,7 @@ namespace AutoShow {
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label7);
 			this->Controls->Add(this->label1);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Name = L"EditSelling";
 			this->Text = L"EditSelling";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
@@ -278,5 +294,55 @@ namespace AutoShow {
 			this->button1->Enabled = true;
 		}
 	}
+
+private: void FillFormFields() {
+	this->comboBox1->SelectedItem = _carRepository->GetCarById(_selling->carId);
+	this->comboBox2->SelectedItem = _customerRepository->GetCustomerById(_selling->customerId);
+	this->numericUpDown1->Value = _selling->count;
+	this->dateTimePicker1->Value = _selling->date;
+}
+
+	private:Selling^ GetFormFields() {
+		Car^ selectedCar = (Car^)comboBox1->SelectedItem;
+		Customer^ selectedCustomer = (Customer^)comboBox2->SelectedItem;
+		return gcnew Selling(
+			selectedCustomer->name,
+			selectedCustomer->id,
+			selectedCar->name,
+			selectedCar->id,
+			Convert::ToInt32(numericUpDown1->Value),
+			dateTimePicker1->Value
+		);
+	}
+	private: System::Void SaveSelling(System::Object^ sender, System::EventArgs^ e) {
+		if (_selling != nullptr) {
+			Selling^ sellingToEdit = GetFormFields();
+			sellingToEdit->id = _selling->id;
+			_sellingRepository->UpdateSelling(sellingToEdit);
+			this->Close();
+		}
+		else {
+			_sellingRepository->CreateSelling(GetFormFields());
+			this->Close();
+		}
+	}
+
+	private: System::Void Cancel(System::Object^ sender, System::EventArgs^ e) {
+		this->Close();
+	}
+private: System::Void dateTimePicker1_Validating(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
+	if (dateTimePicker1->Value >= DateTime::Now) {
+		errorProvider2->Clear();
+		errorProvider1->SetError(dateTimePicker1, "Date field must be less than now");
+		label2->Text = errorProvider1->GetError(dateTimePicker1);
+		this->button1->Enabled = false;
+	}
+	else {
+		label2->Text = "";
+		errorProvider1->Clear();
+		errorProvider2->SetError(dateTimePicker1, " ");
+		this->button1->Enabled = true;
+	}
+}
 };
 }

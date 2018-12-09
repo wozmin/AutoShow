@@ -138,6 +138,7 @@ namespace AutoShow {
 			this->button1->TabIndex = 21;
 			this->button1->Text = L"Save";
 			this->button1->UseVisualStyleBackColor = false;
+			this->button1->Click += gcnew System::EventHandler(this, &EditCarType::SaveCarType);
 			// 
 			// button2
 			// 
@@ -150,6 +151,7 @@ namespace AutoShow {
 			this->button2->TabIndex = 22;
 			this->button2->Text = L"Cancel";
 			this->button2->UseVisualStyleBackColor = false;
+			this->button2->Click += gcnew System::EventHandler(this, &EditCarType::Cancel);
 			// 
 			// errorProvider1
 			// 
@@ -223,11 +225,29 @@ namespace AutoShow {
 
 	private:CarType^ GetFormFields() {
 		return gcnew CarType(
-			_carType->id,
 			textBox1->Text,
 			textBox2->Text
 		);
 	}
+
+	private: System::Void SaveCarType(System::Object^ sender, System::EventArgs^ e) {
+		if (_carType != nullptr) {
+			CarType^ carTypeToEdit = GetFormFields();
+			carTypeToEdit->id = _carType->id;
+			_carTypeRepository->UpdateCarType(carTypeToEdit);
+			this->Close();
+		}
+		else {
+			_carTypeRepository->CreateCarType(GetFormFields());
+			this->Close();
+		}
+	}
+
+	private: System::Void Cancel(System::Object^ sender, System::EventArgs^ e) {
+		this->Close();
+	}
+
+
 
 	private: System::Void textBox1_Validating(System::Object^  sender, System::ComponentModel::CancelEventArgs^  e) {
 		if (textBox1->Text == "") {

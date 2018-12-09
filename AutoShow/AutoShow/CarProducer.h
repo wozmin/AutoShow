@@ -8,7 +8,7 @@ ref class CarProducer {
 		String ^ name;
 		String^ country;
 
-		CarProducer(String^ name, String^ coutry)
+		CarProducer(String^ name, String^ country)
 		{
 			this->name = name;
 			this->country = country;

@@ -24,9 +24,6 @@ namespace AutoShow {
 			if (engine) {
 				FillFormFields();
 			}
-			//
-			//TODO: Add the constructor code here
-			//
 		}
 
 	protected:
@@ -236,7 +233,7 @@ namespace AutoShow {
 			this->button1->TabIndex = 13;
 			this->button1->Text = L"Cancel";
 			this->button1->UseVisualStyleBackColor = false;
-			this->button1->Click += gcnew System::EventHandler(this, &EditSupply::SaveEngine);
+			this->button1->Click += gcnew System::EventHandler(this, &EditSupply::Cancel);
 			// 
 			// button2
 			// 
@@ -248,7 +245,7 @@ namespace AutoShow {
 			this->button2->TabIndex = 14;
 			this->button2->Text = L"Save";
 			this->button2->UseVisualStyleBackColor = false;
-			this->button2->Click += gcnew System::EventHandler(this, &EditSupply::Cancel);
+			this->button2->Click += gcnew System::EventHandler(this, &EditSupply::SaveEngine);
 			// 
 			// errorProvider1
 			// 
@@ -300,7 +297,6 @@ namespace AutoShow {
 
 	private:Engine^ GetFormFields() {
 		return gcnew Engine(
-			_engine->id,
 			textBox1->Text,
 			textBox2->Text,
 			Convert::ToInt32(numericUpDown1->Value),
@@ -309,7 +305,9 @@ namespace AutoShow {
 	}
 	private: System::Void SaveEngine(System::Object^ sender, System::EventArgs^ e) {
 		if (_engine != nullptr) {
-			_engineRepository->UpdateEngine(GetFormFields());
+			Engine^ engineToEdit = GetFormFields();
+			engineToEdit->id = _engine->id;
+			_engineRepository->UpdateEngine(engineToEdit);
 			this->Close();
 		}
 		else {

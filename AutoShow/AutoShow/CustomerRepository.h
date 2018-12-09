@@ -57,7 +57,7 @@ public:
 		if (this->GetCustomerById(customer->id)) {
 			return false;
 		}
-		String^ query = "INSERT INTO Customers(name,address VALUES(@name,@address)";
+		String^ query = "INSERT INTO Customers(name,address) VALUES(@name,@address)";
 		SqlCommand^ command = gcnew SqlCommand(query, connection);
 		command->Parameters->Add(gcnew SqlParameter("@name", customer->name));
 		command->Parameters->Add(gcnew SqlParameter("@address", customer->address));

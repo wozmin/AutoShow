@@ -21,7 +21,8 @@ public:
 
 	List<Selling^>^ GetAllSellings() {
 		List<Selling^>^ list = gcnew List<Selling^>();
-		String^ query = "SELECT * FROM dbo.Sellings";
+		String^ query = "SELECT Sellings.id, Cars.name, carId,Customers.name,customerId,count,date FROM dbo.Sellings"+
+			" JOIN Customers ON Customers.id = customerId JOIN Cars ON Cars.id = carId";
 		SqlCommand^ command = gcnew SqlCommand(query, connection);
 		SqlDataReader^ reader = command->ExecuteReader();
 		while (reader->Read()) {
@@ -41,7 +42,8 @@ public:
 
 	Selling^ GetSellingById(int id) {
 		Selling^ item = nullptr;
-		String^ query = "SELECT * FROM dbo.Sellings WHERE dbo.Sellings.id = @id";
+		String^ query = "SELECT Sellings.id, Cars.name, carId, Customers.name, customerId, count, date FROM dbo.Sellings"+
+			" JOIN Customers ON Customers.id = customerId JOIN Cars ON Cars.id = carId WHERE Sellings.id = @id";
 		SqlCommand^ command = gcnew SqlCommand(query, connection);
 		command->Parameters->Add(gcnew SqlParameter("@id", id));
 		SqlDataReader^ reader = command->ExecuteReader();
@@ -64,12 +66,10 @@ public:
 		if (this->GetSellingById(selling->id)) {
 			return false;
 		}
-		String^ query = "INSERT INTO Sellings(car,carId,customer,customerId,count,date"+
-			" VALUES(@car,@carId,@customer,@customerId,@count,@date)";
+		String^ query = "INSERT INTO Sellings(carId,customerId,count,date) "+
+			" VALUES(@carId,@customerId,@count,@date)";
 		SqlCommand^ command = gcnew SqlCommand(query, connection);
-		command->Parameters->Add(gcnew SqlParameter("@car", selling->car));
 		command->Parameters->Add(gcnew SqlParameter("@carId", selling->carId));
-		command->Parameters->Add(gcnew SqlParameter("@customer", selling->customer));
 		command->Parameters->Add(gcnew SqlParameter("@customerId", selling->customerId));
 		command->Parameters->Add(gcnew SqlParameter("@count", selling->count));
 		command->Parameters->Add(gcnew SqlParameter("@date", selling->date));

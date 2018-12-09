@@ -33,9 +33,6 @@ namespace AutoShow {
 			_customerRepository = gcnew CustomerRepository();
 			_sellingRepository = gcnew SellingRepository();
 			InitCarsTable();
-			//
-			//TODO: Add the constructor code here
-			//
 		}
 
 	protected:
@@ -275,6 +272,8 @@ namespace AutoShow {
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->dataGridView1);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"MainForm";
 			this->Text = L"MainForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
@@ -302,12 +301,9 @@ namespace AutoShow {
 			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCarProducer);
 			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCarProducer);
 			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCarProducer);
-			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCustomer);
-			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
-			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
-			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCustomer);
-			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
-			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
+			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateSelling);
+			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateSelling);
+			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteSelling);
 			button1->Click -= gcnew System::EventHandler(this, &MainForm::CreateCustomer);
 			button2->Click -= gcnew System::EventHandler(this, &MainForm::UpdateCustomer);
 			button3->Click -= gcnew System::EventHandler(this, &MainForm::DeleteCustomer);
@@ -411,14 +407,14 @@ namespace AutoShow {
 
 
 		void CreateCarProducer(System::Object^  sender, System::EventArgs^  e) {
-			EditCar^ form = gcnew EditCar(nullptr);
+			EditProducer^ form = gcnew EditProducer(nullptr);
 			form->ShowDialog();
 			InitCarProducersTable();
 		}
 
 		void DeleteCarProducer(System::Object^  sender, System::EventArgs^  e) {
 			int selectedRow = dataGridView1->CurrentCell->RowIndex;
-			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[7]->Value->ToString());
+			int id = Int32::Parse(dataGridView1->Rows[selectedRow]->Cells[3]->Value->ToString());
 			_carProducerRepository->DeleteCarProducer(id);
 			InitCarProducersTable();
 		}

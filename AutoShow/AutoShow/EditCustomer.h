@@ -70,6 +70,7 @@ namespace AutoShow {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(EditCustomer::typeid));
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
@@ -90,9 +91,9 @@ namespace AutoShow {
 			this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->label8->ForeColor = System::Drawing::Color::DarkRed;
-			this->label8->Location = System::Drawing::Point(136, 99);
+			this->label8->Location = System::Drawing::Point(139, 99);
 			this->label8->Name = L"label8";
-			this->label8->Size = System::Drawing::Size(150, 26);
+			this->label8->Size = System::Drawing::Size(160, 40);
 			this->label8->TabIndex = 18;
 			this->label8->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			// 
@@ -112,7 +113,7 @@ namespace AutoShow {
 			// 
 			this->textBox1->Location = System::Drawing::Point(138, 76);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(148, 20);
+			this->textBox1->Size = System::Drawing::Size(161, 20);
 			this->textBox1->TabIndex = 15;
 			this->textBox1->Validating += gcnew System::ComponentModel::CancelEventHandler(this, &EditCustomer::textBox1_Validating);
 			// 
@@ -133,17 +134,17 @@ namespace AutoShow {
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->label2->ForeColor = System::Drawing::Color::DarkRed;
-			this->label2->Location = System::Drawing::Point(136, 154);
+			this->label2->Location = System::Drawing::Point(136, 175);
 			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(150, 26);
+			this->label2->Size = System::Drawing::Size(163, 36);
 			this->label2->TabIndex = 21;
 			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			// 
 			// textBox2
 			// 
-			this->textBox2->Location = System::Drawing::Point(138, 131);
+			this->textBox2->Location = System::Drawing::Point(138, 152);
 			this->textBox2->Name = L"textBox2";
-			this->textBox2->Size = System::Drawing::Size(148, 20);
+			this->textBox2->Size = System::Drawing::Size(161, 20);
 			this->textBox2->TabIndex = 19;
 			this->textBox2->Validating += gcnew System::ComponentModel::CancelEventHandler(this, &EditCustomer::textBox2_Validating);
 			// 
@@ -153,7 +154,7 @@ namespace AutoShow {
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->label3->ForeColor = System::Drawing::Color::Gold;
-			this->label3->Location = System::Drawing::Point(65, 132);
+			this->label3->Location = System::Drawing::Point(65, 153);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(64, 17);
 			this->label3->TabIndex = 20;
@@ -164,23 +165,25 @@ namespace AutoShow {
 			this->button1->BackColor = System::Drawing::Color::MediumSpringGreen;
 			this->button1->Enabled = false;
 			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button1->Location = System::Drawing::Point(68, 216);
+			this->button1->Location = System::Drawing::Point(68, 232);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 22;
 			this->button1->Text = L"Save";
 			this->button1->UseVisualStyleBackColor = false;
+			this->button1->Click += gcnew System::EventHandler(this, &EditCustomer::SaveCustomer);
 			// 
 			// button2
 			// 
 			this->button2->BackColor = System::Drawing::Color::Coral;
 			this->button2->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button2->Location = System::Drawing::Point(211, 216);
+			this->button2->Location = System::Drawing::Point(211, 232);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(75, 23);
 			this->button2->TabIndex = 23;
 			this->button2->Text = L"Cancel";
 			this->button2->UseVisualStyleBackColor = false;
+			this->button2->Click += gcnew System::EventHandler(this, &EditCustomer::Cancel);
 			// 
 			// errorProvider1
 			// 
@@ -189,6 +192,7 @@ namespace AutoShow {
 			// errorProvider2
 			// 
 			this->errorProvider2->ContainerControl = this;
+			this->errorProvider2->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"errorProvider2.Icon")));
 			// 
 			// EditCustomer
 			// 
@@ -221,14 +225,15 @@ namespace AutoShow {
 
 	private:Customer^ GetFormFields() {
 		return gcnew Customer(
-			_customer->id,
 			textBox1->Text,
 			textBox2->Text
 		);
 	}
 	private: System::Void SaveCustomer(System::Object^ sender, System::EventArgs^ e) {
 		if (_customer != nullptr) {
-			_customerRepository->UpdateCustomer(GetFormFields());
+			Customer^ customerToEdit = GetFormFields();
+			customerToEdit->id = _customer->id;
+			_customerRepository->UpdateCustomer(customerToEdit);
 			this->Close();
 		}
 		else {
